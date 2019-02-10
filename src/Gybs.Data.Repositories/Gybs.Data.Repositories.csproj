@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Version>0.99</Version>
+    <Authors>wk0w</Authors>
+    <Product>Gybs</Product>
+    <Product>Gybs</Product>
+    <Description>Infrastructure for unit of work and repositories pattern in data access layer of the application.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/wk0w/gybs</RepositoryUrl>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DocumentationFile>bin\Release\netstandard2.0\Gybs.Data.Repositories.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gybs\Gybs.csproj" />
+  </ItemGroup>
+
+</Project>

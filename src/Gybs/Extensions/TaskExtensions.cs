@@ -13,9 +13,6 @@ namespace Gybs.Extensions
         /// <typeparam name="TObject">The object type.</typeparam>
         /// <param name="obj">The object.</param>
         /// <returns>The completed task.</returns>
-        public static Task<TObject> ToCompletedTask<TObject>(this TObject obj)
-        {
-            return Task.FromResult(obj);
-        }
+        public static Task<TObject> ToCompletedTask<TObject>(this TObject obj) => Task.FromResult(obj);
     }
 }

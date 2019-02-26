@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Gybs.Extensions;
 using Gybs.Logic.Validation.Internal;
+using Gybs.Results;
 using Microsoft.Extensions.Logging;
 
 namespace Gybs.Logic.Validation.Validator.Internal
@@ -44,7 +46,7 @@ namespace Gybs.Logic.Validation.Validator.Internal
 
             var results = new List<IResult>();
 
-            foreach (var group in groups) 
+            foreach (var group in groups)
             {
                 var hasRuleFailed = false;
 
@@ -87,12 +89,25 @@ namespace Gybs.Logic.Validation.Validator.Internal
                 return Result.Success();
             }
 
-            return results.Flatten();
+            IResult CreateResult(bool hasSucceeded, IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object> metadata)
+                => (hasSucceeded ? Result.Success() : Result.Failure(errors)).AddMetadata(metadata);
+
+            var hasAggregationSucceeded = results.All(r => r.HasSucceeded);
+            var aggregatedErrors = results
+                .SelectMany(r => r.Errors)
+                .GroupBy(r => r.Key)
+                .ToDictionary(g => g.Key, g => g.SelectMany(r => r.Value).ToList().CastToReadOnly());
+            var aggregatedMetadata = results
+                .SelectMany(r => r.Metadata)
+                .GroupBy(k => k.Key)
+                .ToDictionary(g => g.Key, g => g.First().Value);
+
+            return CreateResult(hasAggregationSucceeded, aggregatedErrors, aggregatedMetadata);
         }
 
         public void AddRule(ValidationRuleConfiguration validationRuleConfiguration)
         {
             _validationRuleConfigurations.Add(validationRuleConfiguration);
         }
-    }   
+    }
 }

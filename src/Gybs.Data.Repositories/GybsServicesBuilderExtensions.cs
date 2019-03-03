@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Gybs.DependencyInjection;
 using Gybs.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,13 +18,8 @@ namespace Gybs.Data.Repositories
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddUnitOfWork(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
         {
-            var types = new[]
-            {
-                typeof(IUnitOfWork)
-            };
-
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddImplementationsFromAssembly(types, assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
+                .AddTypesImplementingInterfaceFromAssembly(typeof(IUnitOfWork), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
             return servicesBuilder;
         }
 
@@ -35,13 +31,8 @@ namespace Gybs.Data.Repositories
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddRepositories(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
         {
-            var types = new[]
-            {
-                typeof(IRepository<>)
-            };
-
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddImplementationsFromAssembly(types, assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
+                .AddTypesImplementingInterfaceFromAssembly(typeof(IRepository<>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
             return servicesBuilder;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Gybs.DependencyInjection;
 using Gybs.Internal;
 using Gybs.Logic.Validation.Validator;
 using Gybs.Logic.Validation.Validator.Internal;
@@ -32,13 +33,8 @@ namespace Gybs.Logic.Validation
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddValidationRules(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
         {
-            var types = new[]
-            {
-                typeof(IValidationRule<>)
-            };
-
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddImplementationsFromAssembly(types, assembly ?? Assembly.GetCallingAssembly());
+                .AddTypesImplementingInterfaceFromAssembly(typeof(IValidationRule<>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
             return servicesBuilder;
         }
     }

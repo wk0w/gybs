@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Gybs.DependencyInjection;
 using Gybs.Internal;
 using Gybs.Logic.Cqrs.Factory;
 using Gybs.Logic.Cqrs.Factory.Internal;
@@ -44,13 +45,8 @@ namespace Gybs.Logic.Cqrs
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddOperationInitializersForFactory(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
         {
-            var types = new[]
-            {
-                typeof(IOperationInitializer)
-            };
-
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddImplementationsFromAssembly(types, assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
+                .AddTypesImplementingInterfaceFromAssembly(typeof(IOperationInitializer), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
             return servicesBuilder;
         }
 
@@ -62,13 +58,8 @@ namespace Gybs.Logic.Cqrs
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddQueryHandlers(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
         {
-            var types = new[]
-            {
-                typeof(IQueryHandler<,>)
-            };
-
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddImplementationsFromAssembly(types, assembly ?? Assembly.GetCallingAssembly());
+                .AddTypesImplementingInterfaceFromAssembly(typeof(IQueryHandler<,>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
             return servicesBuilder;
         }
 
@@ -80,14 +71,10 @@ namespace Gybs.Logic.Cqrs
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddCommandHandlers(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
         {
-            var types = new[]
-            {
-                typeof(ICommandHandler<>),
-                typeof(ICommandHandler<,>)
-            };
-
-            ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddImplementationsFromAssembly(types, assembly ?? Assembly.GetCallingAssembly());
+            var serviceCollection = ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance;
+            serviceCollection.AddTypesImplementingInterfaceFromAssembly(typeof(ICommandHandler<>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
+            serviceCollection.AddTypesImplementingInterfaceFromAssembly(typeof(ICommandHandler<,>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
+                
             return servicesBuilder;
         }
     }

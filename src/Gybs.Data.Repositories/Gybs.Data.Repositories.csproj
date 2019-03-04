@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-    <Version>0.99</Version>
+    <Version>0.99.1</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Product>Gybs</Product>
@@ -20,8 +20,12 @@
     <DocumentationFile>bin\Release\netstandard2.0\Gybs.Data.Repositories.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'!='Release|AnyCPU'">
     <ProjectReference Include="..\Gybs\Gybs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PackageReference Include="Gybs" Version="[0.99.1, 0.100)" />
   </ItemGroup>
 
 </Project>

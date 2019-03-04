@@ -62,21 +62,19 @@ namespace Gybs
         /// <param name="data">The data to return.</param>
         /// <param name="metadata">Additional metadata.</param>
         /// <returns>The result.</returns>
-        public static Task<IResult<TData>> SuccessAsync<TData>(TData data, IReadOnlyDictionary<string, object> metadata = null) => Success(data).ToCompletedTask();
+        public static Task<IResult<TData>> SuccessAsync<TData>(TData data, IReadOnlyDictionary<string, object> metadata = null) => Success(data, metadata).ToCompletedTask();
 
         /// <summary>
         /// Creates the successful result.
         /// </summary>
-        /// <param name="metadata">Additional metadata.</param>
         /// <returns>The result.</returns>
-        public static IResult Success(IReadOnlyDictionary<string, object> metadata = null) => Success<object>(null, metadata);
+        public static IResult Success() => Success<object>(null);
 
         /// <summary>
         /// Creates the successful result.
         /// </summary>
-        /// <param name="metadata">Additional metadata.</param>
         /// <returns>The result.</returns>
-        public static Task<IResult> SuccessAsync(IReadOnlyDictionary<string, object> metadata = null) => Success(metadata).ToCompletedTask();
+        public static Task<IResult> SuccessAsync() => Success().ToCompletedTask();
 
         /// <summary>
         /// Creates the failed result.
@@ -229,7 +227,7 @@ namespace Gybs
         /// <returns>The result.</returns>
         public static IResult<TData> ToSuccessfulResult<TData>(this TData data, IReadOnlyDictionary<string, object> metadata = null)
         {
-            return Result.Success(data);
+            return Result.Success(data, metadata);
         }
 
         /// <summary>
@@ -241,43 +239,9 @@ namespace Gybs
         /// <returns>The result.</returns>
         public static Task<IResult<TData>> ToSuccessfulResultAsync<TData>(this TData data, IReadOnlyDictionary<string, object> metadata = null)
         {
-            return Result.SuccessAsync(data);
+            return Result.SuccessAsync(data, metadata);
         }
-
-        /// <summary>
-        /// Creates the successful result with pagination metadata (offset and limit).
-        /// </summary>
-        /// <typeparam name="TData">The type of returned data.</typeparam>
-        /// <param name="data">The data to return.</param>
-        /// <param name="offset">The offset of the paginated data.</param>
-        /// <param name="limit">The limit of the paginated data.</param>
-        /// <returns>The result.</returns>
-        public static IResult<TData> ToSuccessfulPagedResult<TData>(this TData data, int offset, int limit)
-        {
-            return data.ToSuccessfulResult(new Dictionary<string, object>
-            {
-                { nameof(offset), offset },
-                { nameof(limit), limit }
-            });
-        }
-
-        /// <summary>
-        /// Creates the successful result.
-        /// </summary>
-        /// <typeparam name="TData">The type of returned data.</typeparam>
-        /// <param name="data">The data to return.</param>
-        /// <param name="offset">The offset of the paginated data.</param>
-        /// <param name="limit">The limit of the paginated data.</param>
-        /// <returns>The result.</returns>
-        public static Task<IResult<TData>> ToSuccessfulPagedResultAsync<TData>(this TData data, int offset, int limit)
-        {
-            return data.ToSuccessfulResultAsync(new Dictionary<string, object>
-            {
-                { nameof(offset), offset },
-                { nameof(limit), limit }
-            });
-        }
-
+      
         /// <summary>
         /// Flattens the errors from multiple results into a single one.
         /// </summary>

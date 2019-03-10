@@ -1,52 +1,82 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Gybs.Extensions;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Gybs.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace Gybs.Logic.Events.Internal
 {
-    internal class InMemoryEventBus : IEventBus
-    {
+    internal partial class InMemoryEventBus : IEventBus, IDisposable
+    {        
         private readonly ILogger<InMemoryEventBus> _logger;
-        private readonly ConcurrentDictionary<Type, List<ISubscription>> _subscriptions = new ConcurrentDictionary<Type, List<ISubscription>>();
+        private readonly SubscriptionsCollection _subscriptions = new SubscriptionsCollection();
+        private readonly object _disposeLock = new object();
+        private bool _isDisposed;
 
         public InMemoryEventBus(ILogger<InMemoryEventBus> logger)
         {
             _logger = logger;
         }
 
-        public Task SendAsync<TEvent>(TEvent evnt)
+        public void Dispose()
+        {
+            lock (_disposeLock)
+            {
+                if (_isDisposed) throw new ObjectDisposedException(nameof(InMemoryEventBus));
+                _isDisposed = true;                
+            }
+
+            _subscriptions.Dispose();
+        }
+
+        public async Task SendAsync<TEvent>(TEvent evnt)
             where TEvent : class, IEvent
         {
-            _logger.LogDebug($"Received event of type {typeof(TEvent)}.");
-            var subscriptions = GetSubscriptions<TEvent>().ToArray();
-            return Task.WhenAll(subscriptions.Select(s => s.InvokeAsync(evnt)));
+            lock (_disposeLock)
+            {
+                if (_isDisposed) throw new ObjectDisposedException(nameof(InMemoryEventBus));
+            }
+
+            _logger.LogDebug($"Received the event of type '{typeof(TEvent)}'.");
+
+            foreach (var subscription in _subscriptions.GetCopy<TEvent>())
+            {
+                try
+                {
+                    await subscription.InvokeAsync(evnt);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Action for '{typeof(TEvent).FullName}' failed.");
+                }
+            }
         }
 
         public Task<CancellationTokenSource> SubscribeAsync<TEvent>(Func<TEvent, Task> action)
             where TEvent : class, IEvent
         {
-            _logger.LogDebug($"Subscribing for {typeof(TEvent)}.");
-            var subscription = new Subscription<TEvent>(action);
-            var subscriptions = GetSubscriptions<TEvent>();
+            lock (_disposeLock)
+            {
+                if (_isDisposed) throw new ObjectDisposedException(nameof(InMemoryEventBus));
+            }
 
+            _logger.LogDebug($"Subscribing for '{typeof(TEvent)}'.");
+            var subscription = new Subscription<TEvent>(action);            
             subscription.CancellationTokenSource.Token
                 .Register(() =>
                 {
-                    _logger.LogDebug($"Removing subscription for {typeof(TEvent)}.");
-                    _subscriptions[typeof(TEvent)].Remove(subscription);
-                    subscription.CancellationTokenSource.Dispose();
+                    lock (_disposeLock)
+                    {
+                        if (_isDisposed) return;
+                    }
+
+                    _logger.LogDebug($"Removing subscription for '{typeof(TEvent)}'.");
+                    _subscriptions.Remove(subscription);
                 });
 
-            subscriptions.Add(subscription);
-
+            _subscriptions.Add(subscription);
+            
             return subscription.CancellationTokenSource.ToCompletedTask();
         }
-
-        private List<ISubscription> GetSubscriptions<TEvent>() => _subscriptions.GetOrAdd(typeof(TEvent), t => new List<ISubscription>());
-    }
+    }    
 }

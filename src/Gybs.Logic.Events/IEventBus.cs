@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Gybs.Logic.Events
 {
     /// <summary>
-    /// Represents a bus for events.
+    /// Represents a bus for the events.
     /// </summary>
     public interface IEventBus
     {

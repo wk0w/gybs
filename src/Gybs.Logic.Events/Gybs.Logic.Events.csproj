@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.99.1</Version>
+    <Version>0.99.2</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Description>Infrastructure for event bus and events in the logic layer of the application.</Description>

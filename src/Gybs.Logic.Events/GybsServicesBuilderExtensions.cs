@@ -1,5 +1,5 @@
 ﻿using Gybs.Internal;
-using Gybs.Logic.Events.Internal;
+using Gybs.Logic.Events.InMemory;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gybs.Logic.Events

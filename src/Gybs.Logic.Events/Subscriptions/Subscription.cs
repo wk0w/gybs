@@ -2,13 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Gybs.Logic.Events
+namespace Gybs.Logic.Events.Subscriptions
 {
     /// <summary>
     /// Represents a subscription for specific type of <see cref="IEvent"/>.
     /// </summary>
     /// <typeparam name="TEvent"></typeparam>
-    public class Subscription<TEvent> : ISubscription
+    public sealed class Subscription<TEvent> : ISubscription
     {
         private readonly Func<TEvent, Task> _action;
         

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Gybs.Logic.Events
+namespace Gybs.Logic.Events.Subscriptions
 {
     /// <summary>
     /// Represents a subscription for an event.

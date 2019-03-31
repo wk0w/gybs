@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gybs.Logic.Cqrs.Internal;
 using Microsoft.Extensions.Logging;
 
-namespace Gybs.Logic.Cqrs.Factory.Internal
+namespace Gybs.Logic.Operations.Factory.Internal
 {
     internal class OperationFactory : IOperationFactory
     {
@@ -22,13 +21,13 @@ namespace Gybs.Logic.Cqrs.Factory.Internal
         }
 
         public IOperationProxy<TOperation> Create<TOperation>() 
-            where TOperation : IOperation, new()
+            where TOperation : IOperationBase, new()
         {
             return Create<TOperation>(null);
         }
 
         public IOperationProxy<TOperation> Create<TOperation>(Action<TOperation> initializer)
-            where TOperation : IOperation, new()
+            where TOperation : IOperationBase, new()
         {
             var operation = new TOperation();
 

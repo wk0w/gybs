@@ -1,13 +1,11 @@
-﻿using Gybs.Logic.Cqrs.Internal;
-
-namespace Gybs.Logic.Cqrs.Factory
+﻿namespace Gybs.Logic.Operations.Factory
 {
     /// <summary>
-    /// Represents proxy for operation ready to handle.
+    /// Represents a proxy for operation ready to handle.
     /// </summary>
     /// <typeparam name="TOperation">Type of operation.</typeparam>
     public interface IOperationProxy<out TOperation>
-        where TOperation : IOperation
+        where TOperation: IOperationBase
     {
         /// <summary>
         /// Gets operation.

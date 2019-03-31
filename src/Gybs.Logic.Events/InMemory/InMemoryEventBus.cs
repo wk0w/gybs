@@ -14,7 +14,7 @@ namespace Gybs.Logic.Events.InMemory
     /// Sent events will be immediately handled by subscribers on the same thread the call
     /// was executed, one by one.
     /// </remarks>
-    public sealed class InMemoryEventBus : IEventBus, IDisposable
+    internal class InMemoryEventBus : IEventBus, IDisposable
     {        
         private readonly ILogger<InMemoryEventBus> _logger;
         private readonly SubscriptionsCollection _subscriptions = new SubscriptionsCollection();

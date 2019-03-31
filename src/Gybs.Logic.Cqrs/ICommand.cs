@@ -1,4 +1,4 @@
-﻿using Gybs.Logic.Cqrs.Internal;
+﻿using Gybs.Logic.Operations;
 
 namespace Gybs.Logic.Cqrs
 {

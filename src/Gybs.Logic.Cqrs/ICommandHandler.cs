@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Gybs.Logic.Operations;
 
 namespace Gybs.Logic.Cqrs
 {
@@ -6,15 +7,9 @@ namespace Gybs.Logic.Cqrs
     /// Represents a handler of a command.
     /// </summary>
     /// <typeparam name="TCommand">The type of command to handle.</typeparam>
-    public interface ICommandHandler<in TCommand>
+    public interface ICommandHandler<in TCommand> : IOperationHandler<TCommand>
         where TCommand: ICommand, new()
-    {        
-        /// <summary>
-        /// Handles the command.
-        /// </summary>
-        /// <param name="command">The command to handle.</param>
-        /// <returns>The result.</returns>
-        Task<IResult> HandleAsync(TCommand command);
+    {
     }
 
     /// <summary>
@@ -22,14 +17,8 @@ namespace Gybs.Logic.Cqrs
     /// </summary>
     /// <typeparam name="TCommand">The type of command to handle.</typeparam>
     /// <typeparam name="TData">The type of returned data.</typeparam>
-    public interface ICommandHandler<in TCommand, TData>
+    public interface ICommandHandler<in TCommand, TData> : IOperationHandler<TCommand, TData>
         where TCommand : ICommand<TData>, new()
     {
-        /// <summary>
-        /// Handles the command.
-        /// </summary>
-        /// <param name="command">The command to handle.</param>
-        /// <returns>The result with returned data.</returns>
-        Task<IResult<TData>> HandleAsync(TCommand command);
     }
 }

@@ -20,8 +20,9 @@ namespace Gybs.Tests.Results
 
         [Fact]
         public void ForAlreadyExistingStringKeyShouldAddNewErrorMessage()
-        {
+        {            
             var errors = new ResultErrorsDictionary();
+            
             errors.Add("key", "value");
             errors.Add("key", "value2");
             errors.ToDictionary().Should().BeEquivalentTo(new Dictionary<string, string[]> { ["key"] = new[] { "value", "value2" } });

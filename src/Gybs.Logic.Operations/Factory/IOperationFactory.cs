@@ -1,7 +1,6 @@
 ﻿using System;
-using Gybs.Logic.Cqrs.Internal;
 
-namespace Gybs.Logic.Cqrs.Factory
+namespace Gybs.Logic.Operations.Factory
 {
     /// <summary>
     /// Represents factory for creating and handling operations.
@@ -9,20 +8,20 @@ namespace Gybs.Logic.Cqrs.Factory
     public interface IOperationFactory
     {
         /// <summary>
-        /// Creates operation.
+        /// Creates the operation.
         /// </summary>
-        /// <typeparam name="TOperation">Type implementing <see cref="IOperation"/>.</typeparam>
+        /// <typeparam name="TOperation">Type implementing <see cref="IOperationBase"/>.</typeparam>
         /// <returns>Operation to handle.</returns>
         IOperationProxy<TOperation> Create<TOperation>()
-            where TOperation : IOperation, new();
+            where TOperation: IOperationBase, new();
 
         /// <summary>
         /// Creates operation.
         /// </summary>
-        /// <typeparam name="TOperation">Type implementing <see cref="IOperation"/>.</typeparam>
+        /// <typeparam name="TOperation">Type implementing <see cref="IOperationBase"/>.</typeparam>
         /// <param name="initializer">Action which initializes operation. Invoked after <see cref="IOperationInitializer"/> implementations.</param>
         /// <returns>Operation to handle.</returns>
         IOperationProxy<TOperation> Create<TOperation>(Action<TOperation> initializer)
-            where TOperation : IOperation, new();
+            where TOperation: IOperationBase, new();
     }
 }

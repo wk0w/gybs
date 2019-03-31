@@ -17,7 +17,7 @@ namespace Gybs.DependencyInjection
         /// Registration is done for the type itself and each interface implemented by it, not only the requested one.
         /// </remarks>
         /// <param name="serviceCollection">Service collection.</param>
-        /// <param name="interfaceTypes">The interface type to add.</param>
+        /// <param name="interfaceType">The interface type to add.</param>
         /// <param name="assembly">The assembly with implementations.</param>
         /// <param name="serviceLifetime">The service lifetime.</param>
         /// <returns>Service collection.</returns>

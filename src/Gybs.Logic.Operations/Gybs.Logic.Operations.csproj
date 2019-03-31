@@ -6,27 +6,25 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.99.1</Version>
+    <Version>0.100.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
-    <Description>Infrastructure for CQRS pattern in the logic layer of the application.</Description>
+    <Description>Infrastructure for operation handling in the logic layer of the application.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wk0w/gybs</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Gybs.Logic.Cqrs.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\Gybs.Logic.Operations.xml</DocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup Condition="'$(Configuration)|$(Platform)'!='Release|AnyCPU'">
     <ProjectReference Include="..\Gybs\Gybs.csproj" />
-    <ProjectReference Include="..\Gybs.Logic.Operations\Gybs.Logic.Operations.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PackageReference Include="Gybs" Version="[0.99.1, 0.100)" />
-    <PackageReference Include="Gybs.Logic.Operations" Version="[0.99.1, 0.100)" />
   </ItemGroup>
 
 </Project>

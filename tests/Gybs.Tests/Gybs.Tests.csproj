@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Gybs\Gybs.csproj" />
     <ProjectReference Include="..\..\src\Gybs.Logic.Events\Gybs.Logic.Events.csproj" />
+    <ProjectReference Include="..\..\src\Gybs.Logic.Operations\Gybs.Logic.Operations.csproj" />
   </ItemGroup>
 
 </Project>

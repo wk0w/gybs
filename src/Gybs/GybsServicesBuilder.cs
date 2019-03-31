@@ -18,6 +18,9 @@ namespace Gybs
         }
     }
 
+    /// <summary>
+    /// Gybs services builder extensions.
+    /// </summary>
     public static class GybsServicesBuilderExtensions
     {
         /// <summary>

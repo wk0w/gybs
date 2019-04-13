@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.100.0</Version>
+    <Version>0.100.1</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
-    <Description>Infrastructure for operation handling in the logic layer of the application.</Description>
+    <Description>Part of the GYBS which allows to decouple the operation contracts from the handler implementations.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wk0w/gybs</RepositoryUrl>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="Gybs" Version="[0.99.1, 0.100)" />
+    <PackageReference Include="Gybs" Version="[0.100.0, 1.0)" />
   </ItemGroup>
 
 </Project>

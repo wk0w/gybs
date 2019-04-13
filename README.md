@@ -77,7 +77,7 @@ var result = await factory
 ```
 
 ### Logic.Cqrs
-CQRS is a wrapper around Operations replacing `IOperation` and `IOperationHandler` with `IQuery/ICommand` and `IQueryHandler/ICommandHandler`.
+CQRS library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Cqrs), is a wrapper around Operations replacing `IOperation` and `IOperationHandler` with `IQuery/ICommand` and `IQueryHandler/ICommandHandler`.
 
 ### Logic.Events
 Events library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Events), provides two basic interfaces for the events support: `IEvent` and `IEventBus`. Additionally, it provides the `InMemoryEventBus` implementation.

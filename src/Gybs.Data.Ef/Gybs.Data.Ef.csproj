@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.99.1</Version>
+    <Version>0.100.0</Version>
   </PropertyGroup>
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
-    <Description>Infrastructure for DbContext-oriented data access layer of the application.</Description>
+    <Description>Part of the GYBS which provides the wrappers around `DbContext` and `DbSet` for grouping the extensions with the queries.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wk0w/gybs</RepositoryUrl>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="Gybs" Version="[0.99.1, 0.100)" />
+    <PackageReference Include="Gybs" Version="[0.100.0, 1.0)" />
   </ItemGroup>
 
   <ItemGroup>

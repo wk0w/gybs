@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.99.1</Version>
+    <Version>0.100.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
-    <Description>Base utilities for the application.</Description>
+    <Description>GYBS is a set of small but useful things for any .NET Standard project.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wk0w/gybs</RepositoryUrl>
   </PropertyGroup>

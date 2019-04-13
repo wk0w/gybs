@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.99.1</Version>
+    <Version>0.100.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
-    <Description>Infrastructure for rule-oriented validation in the logic layer of application.</Description>
+    <Description>Part of the GYBS which allows to separate validation logic from the rest of the application.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/wk0w/gybs</RepositoryUrl>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="Gybs" Version="[0.99.1, 0.100)" />
+    <PackageReference Include="Gybs" Version="[0.100.0, 1.0)" />
   </ItemGroup>
 
 </Project>

@@ -24,5 +24,26 @@ namespace Gybs.Tests.Results
             var result = Result.Failure(errors);
             result.Errors.Should().BeEquivalentTo(errors);
         }
+
+        [Fact]
+        public void ForSingleStringErrorShouldSetError()
+        {
+            var errors = new Dictionary<string, IReadOnlyCollection<string>> { ["key"] = new List<string> { "value" } };
+            var result = Result.Failure("key", "value");
+            result.Errors.Should().BeEquivalentTo(errors);
+        }
+
+        [Fact]
+        public void ForSingleModelErrorShouldSetError()
+        {
+            var errors = new Dictionary<string, IReadOnlyCollection<string>> { ["Model.Test"] = new List<string> { "value" } };
+            var result = Result.Failure<Model>(m => m.Test, "value");
+            result.Errors.Should().BeEquivalentTo(errors);
+        }
+
+        private class Model
+        {
+            public string Test { get; set; }
+        }
     }
 }

@@ -25,10 +25,15 @@ return new Model().ToSuccessfulResult();
 ```
 
 ```
+return Result.Failure("Field1", "value");
+return Result.Failure<Model>(m => m.Field2, "value");
+```
+
+```
 var errors = new ResultErrorsDictionary();
 errors.Add("Field1", "value");
 errors.Add<Model>(m => m.Field2, "value");
-return Result.Failure(errors.ToDictionary()).Map<Model>();
+return Result.Failure(errors).Map<Model>();
 ```
 
 #### Dependency injection

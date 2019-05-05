@@ -18,7 +18,7 @@ namespace Gybs.Results
         /// <param name="data">The data to return.</param>
         /// <returns>The result.</returns>
         public static IResult<TData> ToSuccessfulResult<TData>(this TData data) => Result.Success(data);
-        
+
         /// <summary>
         /// Maps the result into a new one.
         /// </summary>
@@ -39,7 +39,7 @@ namespace Gybs.Results
             => Result.Copy(inputResult, mapper.Invoke(inputResult.Data));
 
         /// <summary>
-        /// Adds the metadata to the result.
+        /// Adds the metadata and returns the new result.
         /// </summary>
         /// <param name="result">The result.</param>
         /// <param name="metadata">The metadata.</param>
@@ -49,12 +49,12 @@ namespace Gybs.Results
             => Result.Copy<TData>(result, result.Data, metadata: metadata);
 
         /// <summary>
-        /// Adds the metadata to the result.
+        /// Adds the metadata and returns the new result.
         /// </summary>
         /// <param name="result">The result.</param>
         /// <param name="metadata">The metadata.</param>
         /// <returns>The result</returns>
         public static IResult AddMetadata(this IResult result, IReadOnlyDictionary<string, object> metadata)
             => Result.Copy<object>(result, default, metadata: metadata);
-    }    
+    }
 }

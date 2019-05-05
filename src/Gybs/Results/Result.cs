@@ -3,6 +3,7 @@ using Gybs.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Gybs.Results
@@ -10,22 +11,22 @@ namespace Gybs.Results
     internal class Result<TData> : IResult<TData>
     {
         public bool HasSucceeded { get; }
-        public TData Data { get; }        
+        public TData Data { get; }
         public IReadOnlyDictionary<string, IReadOnlyCollection<string>> Errors { get; set; } = new Dictionary<string, IReadOnlyCollection<string>>();
         public IReadOnlyDictionary<string, object> Metadata { get; set; } = new Dictionary<string, object>();
-        
+
         public Result(bool hasSucceeded, TData data)
         {
             HasSucceeded = hasSucceeded;
             Data = data;
-        }        
+        }
     }
 
     /// <summary>
     /// Creates results.
     /// </summary>
     public static class Result
-    {        
+    {
         /// <summary>
         /// Creates a copy of the result with specified data type and new data.
         /// </summary>
@@ -58,5 +59,22 @@ namespace Gybs.Results
         /// <param name="errors">The dictionary of errors.</param>
         /// <returns>The result.</returns>
         public static IResult Failure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors) => new Result<object>(false, default) { Errors = errors };
+
+        /// <summary>
+        /// Creates the failed result with a single error.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <param name="messages">The messages.</param>
+        /// <returns>The result.</returns>
+        public static IResult Failure(string key, params string[] messages) => Result.Failure(new ResultErrorsDictionary().Add(key, messages));
+
+        /// <summary>
+        /// Creates the failed result with a single error.
+        /// </summary>
+        /// <typeparam name="TType">Type used to build the key.</typeparam>
+        /// <param name="propertyExpression">Expression used to generate the key.</param>
+        /// <param name="messages">The messages.</param>
+        /// <returns>The result.</returns>
+        public static IResult Failure<TType>(Expression<Func<TType, object>> propertyExpression, params string[] messages) => Result.Failure(new ResultErrorsDictionary().Add(propertyExpression, messages));
     }
 }

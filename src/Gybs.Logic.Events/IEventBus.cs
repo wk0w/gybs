@@ -15,7 +15,7 @@ namespace Gybs.Logic.Events
         /// <typeparam name="TEvent">Type of the event.</typeparam>
         /// <param name="evnt">The event.</param>
         /// <returns>A task which represents an asynchronous operation.</returns>
-        Task SendAsync<TEvent>(TEvent evnt) 
+        Task SendAsync<TEvent>(TEvent evnt)
             where TEvent : class, IEvent;
 
         /// <summary>

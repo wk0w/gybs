@@ -8,6 +8,6 @@ namespace Gybs.Logic.Validation.Validator
     /// <typeparam name="TValidationRule">The type of the validation rule.</typeparam>
     public interface IValidationRuleBuilder<out TValidationRule>
         where TValidationRule : IValidationRule
-    {        
-    }    
+    {
+    }
 }

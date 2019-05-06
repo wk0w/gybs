@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Gybs
-{    
+{
     /// <summary>
     /// Represents a builder for Gybs services.
     /// </summary>
@@ -32,7 +32,7 @@ namespace Gybs
         public static IServiceCollection AddGybs(this IServiceCollection serviceCollection, Action<GybsServicesBuilder> builderAction)
         {
             if (builderAction == null) throw new ArgumentNullException(nameof(builderAction), "Builder action is required.");
-            
+
             builderAction.Invoke(new GybsServicesBuilder(serviceCollection));
             return serviceCollection;
         }

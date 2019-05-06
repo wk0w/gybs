@@ -11,12 +11,12 @@ namespace Gybs.Logic.Events.Subscriptions
     public sealed class Subscription<TEvent> : ISubscription
     {
         private readonly Func<TEvent, Task> _action;
-        
+
         /// <summary>
         /// Gets token source for cancellation of the subscription.
         /// </summary>
         public CancellationTokenSource CancellationTokenSource { get; }
-            
+
         /// <summary>
         /// Creates new instance of subscription.
         /// </summary>

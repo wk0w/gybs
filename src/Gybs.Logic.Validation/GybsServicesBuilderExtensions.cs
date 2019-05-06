@@ -24,7 +24,7 @@ namespace Gybs.Logic.Validation
 
             return servicesBuilder;
         }
-        
+
         /// <summary>
         /// Adds all implementations of <see cref="IValidationRule{TValidationData}"/> from the assembly.
         /// </summary>

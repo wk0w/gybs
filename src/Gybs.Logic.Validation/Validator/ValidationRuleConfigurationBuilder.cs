@@ -18,7 +18,7 @@ namespace Gybs.Logic.Validation.Validator
         }
 
         /// <summary>
-        /// Assigns the group to the rule. 
+        /// Assigns the group to the rule.
         /// </summary>
         /// <remarks>
         /// All rules without groups are executed within a single default group.
@@ -40,7 +40,7 @@ namespace Gybs.Logic.Validation.Validator
         }
 
         /// <summary>
-        /// Sets the priority for invocation within the group.        
+        /// Sets the priority for invocation within the group.
         /// </summary>
         /// <remarks>
         /// All rules without groups are executed within a single default group.

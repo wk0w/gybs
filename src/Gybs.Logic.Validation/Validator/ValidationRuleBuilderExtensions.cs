@@ -16,7 +16,7 @@ namespace Gybs.Logic.Validation.Validator
         /// <param name="data">The data to validate.</param>
         /// <returns>The configuration builder for the rule.</returns>
         public static ValidationRuleConfigurationBuilder WithData<TData>(this IValidationRuleBuilder<IValidationRule<TData>> validationRuleBuilder, TData data)
-        {            
+        {
             var validator = ((IInfrastructure<Internal.Validator>)validationRuleBuilder).Instance;
             var ruleType = validationRuleBuilder.GetType().GetGenericArguments().First();
             return new ValidationRuleConfigurationBuilder(validator, ruleType, data);

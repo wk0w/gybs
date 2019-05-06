@@ -16,12 +16,12 @@ namespace Gybs.Tests.Logic.Events.InMemory
         {
             var bus = CreateBus();
             var count = 0;
-            var expectedCount = 3;
+            const int expectedCount = 3;
 
             for (var i = 0; i < expectedCount; i++)
             {
-                await bus.SubscribeAsync<Event>(e => { count++; return Task.CompletedTask; });
-            }            
+                await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
+            }
             await bus.SendAsync(new Event());
 
             count.Should().Be(expectedCount);
@@ -33,9 +33,9 @@ namespace Gybs.Tests.Logic.Events.InMemory
             var bus = CreateBus();
             var count = 0;
 
-            await bus.SubscribeAsync<Event>(e => { count++; return Task.CompletedTask; });
-            await bus.SubscribeAsync<Event>(e => throw new InvalidOperationException());
-            await bus.SubscribeAsync<Event>(e => { count++; return Task.CompletedTask; });
+            await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
+            await bus.SubscribeAsync<Event>(_ => throw new InvalidOperationException());
+            await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
             await bus.SendAsync(new Event());
 
             count.Should().Be(2);
@@ -46,11 +46,11 @@ namespace Gybs.Tests.Logic.Events.InMemory
         {
             var bus = CreateBus();
             var count = 0;
-            
-            var subscription = await bus.SubscribeAsync<Event>(e => { count++; return Task.CompletedTask; });
+
+            var subscription = await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
             subscription.Cancel();
             await bus.SendAsync(new Event());
-            
+
             count.Should().Be(0);
         }
 
@@ -58,7 +58,7 @@ namespace Gybs.Tests.Logic.Events.InMemory
         public async Task ForNoSubscribersEventIsSend()
         {
             var bus = CreateBus();
-            await bus.SendAsync(new Event());            
+            await bus.SendAsync(new Event());
         }
 
         private InMemoryEventBus CreateBus() => new InMemoryEventBus(Substitute.For<ILogger<InMemoryEventBus>>());

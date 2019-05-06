@@ -27,7 +27,7 @@ namespace Gybs.Tests.Results
         [Fact]
         public void ForDataShouldSetData()
         {
-            var data = 17;
+            const int data = 17;
             var result = Result.Success(data);
             result.Data.Should().Be(data);
         }

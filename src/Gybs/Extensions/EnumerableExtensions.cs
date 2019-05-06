@@ -20,6 +20,6 @@ namespace Gybs.Extensions
             {
                 action(element);
             }
-        }        
+        }
     }
 }

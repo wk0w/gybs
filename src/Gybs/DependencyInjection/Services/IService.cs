@@ -6,7 +6,7 @@ namespace Gybs.DependencyInjection.Services
     /// Represents a service which is registered within dependency injection container as singleton.
     /// </summary>
     public interface ISingletonService
-    {        
+    {
     }
 
     /// <summary>

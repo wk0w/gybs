@@ -2,7 +2,7 @@
 using Gybs.Logic.Operations;
 
 namespace Gybs.Logic.Cqrs
-{   
+{
     /// <summary>
     /// Represents a handler of a query.
     /// </summary>

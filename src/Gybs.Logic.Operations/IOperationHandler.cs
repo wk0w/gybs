@@ -7,8 +7,8 @@ namespace Gybs.Logic.Operations
     /// </summary>
     /// <typeparam name="TOperation">The type of command to handle.</typeparam>
     public interface IOperationHandler<in TOperation>
-        where TOperation: IOperation, new()
-    {        
+        where TOperation : IOperation, new()
+    {
         /// <summary>
         /// Handles the command.
         /// </summary>

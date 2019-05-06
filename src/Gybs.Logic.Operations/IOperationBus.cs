@@ -19,6 +19,6 @@ namespace Gybs.Logic.Operations
         /// </summary>
         /// <param name="operation">The operation to handle.</param>
         /// <returns>The result with data.</returns>
-        Task<IResult<TData>> HandleAsync<TData>(IOperation<TData> operation);        
+        Task<IResult<TData>> HandleAsync<TData>(IOperation<TData> operation);
     }
 }

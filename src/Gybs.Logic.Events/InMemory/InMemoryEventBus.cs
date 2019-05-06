@@ -15,7 +15,7 @@ namespace Gybs.Logic.Events.InMemory
     /// was executed, one by one.
     /// </remarks>
     internal class InMemoryEventBus : IEventBus, IDisposable
-    {        
+    {
         private readonly ILogger<InMemoryEventBus> _logger;
         private readonly SubscriptionsCollection _subscriptions = new SubscriptionsCollection();
         private readonly object _disposeLock = new object();
@@ -34,7 +34,7 @@ namespace Gybs.Logic.Events.InMemory
             lock (_disposeLock)
             {
                 if (_isDisposed) throw new ObjectDisposedException(nameof(InMemoryEventBus));
-                _isDisposed = true;                
+                _isDisposed = true;
             }
 
             _subscriptions.Dispose();
@@ -84,7 +84,7 @@ namespace Gybs.Logic.Events.InMemory
             }
 
             _logger.LogDebug($"Subscribing for '{typeof(TEvent)}'.");
-            var subscription = new Subscription<TEvent>(action);            
+            var subscription = new Subscription<TEvent>(action);
             subscription.CancellationTokenSource.Token
                 .Register(() =>
                 {
@@ -98,8 +98,8 @@ namespace Gybs.Logic.Events.InMemory
                 });
 
             _subscriptions.Add(subscription);
-            
+
             return subscription.CancellationTokenSource.ToCompletedTask();
         }
-    }    
+    }
 }

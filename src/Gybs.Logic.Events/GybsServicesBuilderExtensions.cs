@@ -8,7 +8,7 @@ namespace Gybs.Logic.Events
     /// <see cref="GybsServicesBuilder"/> extensions.
     /// </summary>
     public static class GybsServicesBuilderExtensions
-    {        
+    {
         /// <summary>
         /// Adds the singleton in-memory implementation of <see cref="IEventBus"/>.
         /// </summary>

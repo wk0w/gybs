@@ -27,6 +27,6 @@ namespace Gybs.Logic.Operations.Factory
         public static Task<IResult<TData>> HandleAsync<TData>(this IOperationProxy<IOperation<TData>> operationProxy)
         {
             return operationProxy.Bus.HandleAsync(operationProxy.Operation);
-        }        
+        }
     }
 }

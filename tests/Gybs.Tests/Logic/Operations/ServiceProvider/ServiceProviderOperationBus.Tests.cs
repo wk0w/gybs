@@ -17,7 +17,6 @@ namespace Gybs.Tests.Logic.ServiceProvider
         [Fact]
         public async Task ForRegisteredHandlerShouldHandleOperationWithoutData()
         {
-            var logger = Substitute.For<ILogger<ServiceProviderOperationBus>>();
             var bus = CreateBus();
             var result = await bus.HandleAsync(new DummyOperation());
             result.HasSucceeded.Should().BeTrue();
@@ -26,8 +25,7 @@ namespace Gybs.Tests.Logic.ServiceProvider
         [Fact]
         public async Task ForRegisteredHandlerShouldHandleOperationWithData()
         {
-            var logger = Substitute.For<ILogger<ServiceProviderOperationBus>>();
-            var bus = CreateBus();            
+            var bus = CreateBus();
             var result = await bus.HandleAsync(new DummyDataOperation { InputData = 1 });
             result.HasSucceeded.Should().BeTrue();
             result.Data.Should().Be(1);
@@ -36,17 +34,16 @@ namespace Gybs.Tests.Logic.ServiceProvider
         [Fact]
         public async Task ForRegisteredHandlerShouldCreateNewHandler()
         {
-            var logger = Substitute.For<ILogger<ServiceProviderOperationBus>>();
-            var bus = CreateBus();            
-            var result = await bus.HandleAsync(new DummyDataOperation { InputData = 1 });
-            result = await bus.HandleAsync(new DummyDataOperation { InputData = 1 });
+            var bus = CreateBus();
+            _ = await bus.HandleAsync(new DummyDataOperation { InputData = 1 });
+            IResult<int> result = await bus.HandleAsync(new DummyDataOperation { InputData = 1 });
             result.HasSucceeded.Should().BeTrue();
             result.Data.Should().Be(1);
         }
 
         private IOperationBus CreateBus()
         {
-            var logger = Substitute.For<ILogger<ServiceProviderOperationBus>>();            
+            var logger = Substitute.For<ILogger<ServiceProviderOperationBus>>();
             var serviceProvider = new DefaultServiceProviderFactory().CreateServiceProvider(
                 new ServiceCollection().AddGybs(builder => builder.AddOperationHandlers())
             );

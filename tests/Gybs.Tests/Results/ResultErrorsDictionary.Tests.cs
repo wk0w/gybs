@@ -51,21 +51,21 @@ namespace Gybs.Tests.Results
         [Fact]
         public void ForKeyInDictionaryIndexerShouldReturnValue()
         {
-            var errors = new ResultErrorsDictionary { {"key",  "value" } };
+            var errors = new ResultErrorsDictionary { { "key", "value" } };
             errors["key"].Should().BeEquivalentTo("value");
         }
 
         [Fact]
         public void ForKeyInDictionaryShouldHaveCount()
         {
-            var errors = new ResultErrorsDictionary { {"key",  "value" } };
+            var errors = new ResultErrorsDictionary { { "key", "value" } };
             errors.Count.Should().Be(1);
         }
 
         [Fact]
         public void ForKeyInDictionaryContainsKeyShouldReturnTrue()
         {
-            var errors = new ResultErrorsDictionary { {"key",  "value" } };
+            var errors = new ResultErrorsDictionary { { "key", "value" } };
             errors.ContainsKey("key").Should().BeTrue();
         }
 
@@ -79,7 +79,7 @@ namespace Gybs.Tests.Results
         [Fact]
         public void ForKeyInDictionaryTryGetShouldReturnValue()
         {
-            var errors = new ResultErrorsDictionary { {"key",  "value" } };
+            var errors = new ResultErrorsDictionary { { "key", "value" } };
             var result = errors.TryGetValue("key", out var value);
             new { result, value }.Should().BeEquivalentTo(new { result = true, value = new List<string> { "value" } });
         }
@@ -95,8 +95,8 @@ namespace Gybs.Tests.Results
         [Fact]
         public void ForDictionaryWithElementsShouldIterate()
         {
-            var keys = new [] { "key1", "key2" };
-            var values = new [] { "value1", "value2" };
+            var keys = new[] { "key1", "key2" };
+            var values = new[] { "value1", "value2" };
 
             var errors = new ResultErrorsDictionary
             {

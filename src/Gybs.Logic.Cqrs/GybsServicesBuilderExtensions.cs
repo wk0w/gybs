@@ -13,7 +13,7 @@ namespace Gybs.Logic.Cqrs
         /// <summary>
         /// Adds all query handlers from the assembly.
         /// </summary>
-        /// <param name="servicesBuilder">The builder.</param>        
+        /// <param name="servicesBuilder">The builder.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddQueryHandlers(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
@@ -26,7 +26,7 @@ namespace Gybs.Logic.Cqrs
         /// <summary>
         /// Adds all command handlers from the assembly.
         /// </summary>
-        /// <param name="servicesBuilder">The builder.</param>        
+        /// <param name="servicesBuilder">The builder.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddCommandHandlers(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
@@ -34,7 +34,7 @@ namespace Gybs.Logic.Cqrs
             var serviceCollection = ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance;
             serviceCollection.AddTypesImplementingInterfaceFromAssembly(typeof(ICommandHandler<>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
             serviceCollection.AddTypesImplementingInterfaceFromAssembly(typeof(ICommandHandler<,>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
-                
+
             return servicesBuilder;
         }
     }

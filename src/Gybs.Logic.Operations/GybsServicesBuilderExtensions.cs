@@ -40,7 +40,7 @@ namespace Gybs.Logic.Operations
         /// <summary>
         /// Adds all operation initializers from the assembly which are used by factory to initialize operations.
         /// </summary>
-        /// <param name="servicesBuilder">The builder.</param>        
+        /// <param name="servicesBuilder">The builder.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddOperationInitializersForFactory(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
@@ -53,7 +53,7 @@ namespace Gybs.Logic.Operations
         /// <summary>
         /// Adds all operation handlers from the assembly.
         /// </summary>
-        /// <param name="servicesBuilder">The builder.</param>        
+        /// <param name="servicesBuilder">The builder.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddOperationHandlers(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
@@ -63,6 +63,6 @@ namespace Gybs.Logic.Operations
             serviceCollection.AddTypesImplementingInterfaceFromAssembly(typeof(IOperationHandler<,>), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
 
             return servicesBuilder;
-        }        
+        }
     }
 }

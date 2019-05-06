@@ -23,8 +23,8 @@ namespace Gybs.DependencyInjection
         /// <returns>Service collection.</returns>
         public static IServiceCollection AddTypesImplementingInterfaceFromAssembly(
             this IServiceCollection serviceCollection,
-            Type interfaceType, 
-            Assembly assembly, 
+            Type interfaceType,
+            Assembly assembly,
             ServiceLifetime serviceLifetime)
         {
             if (!interfaceType.IsInterface) throw new ArgumentException("Provided type needs to be an interface.", nameof(interfaceType));
@@ -50,7 +50,7 @@ namespace Gybs.DependencyInjection
                         .ToArray();
                 }
 
-                if (!implementedInterfaceTypes.Any())
+                if (implementedInterfaceTypes.Length == 0)
                 {
                     continue;
                 }
@@ -82,8 +82,8 @@ namespace Gybs.DependencyInjection
         /// <returns>Service collection.</returns>
         public static IServiceCollection AddTypesWithAttributeFromAssembly(
             this IServiceCollection serviceCollection,
-            Type attributeType, 
-            Assembly assembly, 
+            Type attributeType,
+            Assembly assembly,
             ServiceLifetime serviceLifetime)
         {
             if (attributeType.IsAssignableFrom(typeof(Attribute))) throw new ArgumentException("Provided type needs to be an attribute.", nameof(attributeType));

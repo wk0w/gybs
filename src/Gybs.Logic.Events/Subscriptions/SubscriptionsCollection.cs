@@ -42,7 +42,7 @@ namespace Gybs.Logic.Events.Subscriptions
             {
                 if (_isDisposed) throw new ObjectDisposedException(nameof(SubscriptionsCollection));
             }
-            
+
             var subscriptions = GetOrAddSubscriptions<TEvent>();
 
             lock (subscriptions)
@@ -90,7 +90,7 @@ namespace Gybs.Logic.Events.Subscriptions
                 return new List<ISubscription>(subscriptions);
             }
         }
-    
-        private List<ISubscription> GetOrAddSubscriptions<TEvent>() => _subscriptions.GetOrAdd(typeof(TEvent), t => new List<ISubscription>());
+
+        private List<ISubscription> GetOrAddSubscriptions<TEvent>() => _subscriptions.GetOrAdd(typeof(TEvent), _ => new List<ISubscription>());
     }
 }

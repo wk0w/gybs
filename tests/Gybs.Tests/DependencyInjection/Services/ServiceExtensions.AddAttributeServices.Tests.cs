@@ -68,7 +68,7 @@ namespace Gybs.Tests.DependencyInjection.Services
 
             firstInstance.Should().NotBe(secondInstance);
         }
-        
+
         [Fact]
         public void ForTransientShouldResolveByType()
         {
@@ -103,11 +103,11 @@ namespace Gybs.Tests.DependencyInjection.Services
             );
         }
 
-        private interface ISingletonMock {}
-        [SingletonService] private class SingletonMock : ISingletonMock {}
-        private interface IScopedMock {}
-        [ScopedService] private class ScopedMock : IScopedMock {}
-        private interface ITransientMock {}
-        [TransientService] private class TransientMock : ITransientMock {}
+        private interface ISingletonMock { }
+        [SingletonService] private class SingletonMock : ISingletonMock { }
+        private interface IScopedMock { }
+        [ScopedService] private class ScopedMock : IScopedMock { }
+        private interface ITransientMock { }
+        [TransientService] private class TransientMock : ITransientMock { }
     }
 }

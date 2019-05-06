@@ -20,7 +20,7 @@ namespace Gybs.Logic.Operations.Factory.Internal
             logger.LogDebug($"Resolved {_operationInitializers.Count} operation initializers.");
         }
 
-        public IOperationProxy<TOperation> Create<TOperation>() 
+        public IOperationProxy<TOperation> Create<TOperation>()
             where TOperation : IOperationBase, new()
         {
             return Create<TOperation>(null);

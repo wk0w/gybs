@@ -7,7 +7,7 @@ namespace Gybs.DependencyInjection.Services
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
     public sealed class SingletonServiceAttribute : Attribute
-    {        
+    {
     }
 
     /// <summary>

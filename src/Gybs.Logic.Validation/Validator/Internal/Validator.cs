@@ -84,7 +84,7 @@ namespace Gybs.Logic.Validation.Validator.Internal
                 }
             }
 
-            if (!results.Any())
+            if (results.Count == 0)
             {
                 return Result.Success();
             }

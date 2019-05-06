@@ -4,7 +4,7 @@ GYBS is a set of small but useful things for any .NET Standard project. The idea
 ## How to use it?
 
 ### Base
-Base library, available at [NuGet](https://www.nuget.org/packages/Gybs), consists of three main parts:
+Base library, available at [NuGet](https://www.nuget.org/packages/Gybs/0.101.0), consists of three main parts:
 * various extension methods
 * `IResult` interface its implementation
 * dependency injection utils
@@ -51,7 +51,7 @@ serviceCollection.AddGybs(builder => {
 ```
 
 ### Logic.Operations
-Operations library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Operations), allows to decouple the operation contracts from the handler implementations. This is achieved by:
+Operations library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Operations/0.100.1), allows to decouple the operation contracts from the handler implementations. This is achieved by:
 * separating `IOperation` from `IOperationHandler`
 * putting the `IOperationBus` between, which takes the reponsibility of finding the correct handler for each operation
 
@@ -68,7 +68,7 @@ class DummyOperation : IOperation<string> {}
 
 class DummyOperationHandler : IOperationHandler<DummyOperation, string>
 {
-    public async Task<IResult<string>> HandleAsync(DummyOperation operation) 
+    public async Task<IResult<string>> HandleAsync(DummyOperation operation)
     {
         return "success".ToSuccessfulResult();
     }
@@ -82,14 +82,14 @@ var result = await factory
 ```
 
 ### Logic.Cqrs
-CQRS library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Cqrs), is a wrapper around Operations replacing `IOperation` and `IOperationHandler` with `IQuery/ICommand` and `IQueryHandler/ICommandHandler`.
+CQRS library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Cqrs/0.100.1), is a wrapper around Operations replacing `IOperation` and `IOperationHandler` with `IQuery/ICommand` and `IQueryHandler/ICommandHandler`.
 
 ### Logic.Events
-Events library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Events), provides two basic interfaces for the events support: `IEvent` and `IEventBus`. Additionally, it provides the `InMemoryEventBus` implementation.
+Events library, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Events/0.100.0), provides two basic interfaces for the events support: `IEvent` and `IEventBus`. Additionally, it provides the `InMemoryEventBus` implementation.
 
 ```
 serviceCollection.AddGybs(builder => {
-    builder.AddInMemoryEventBus();    
+    builder.AddInMemoryEventBus();
 );
 
 class Event : IEvent {}
@@ -100,12 +100,12 @@ await eventBus.SendAsync(new Event());
 ```
 
 ### Logic.Validation
-Validation, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Validation), allows to separate validation logic from the rest of the application. This is achived by grouping the implementations of `IValidationRule` interface into the single validator by `IValidatorFactory`.
+Validation, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Validation/0.100.0), allows to separate validation logic from the rest of the application. This is achived by grouping the implementations of `IValidationRule` interface into the single validator by `IValidatorFactory`.
 
 ```
 serviceCollection.AddGybs(builder => {
     builder.AddValidatorFactory();
-    builder.AddValidationRules();    
+    builder.AddValidationRules();
 );
 
 class StringIsPresentRule : IValidationRule<string>
@@ -130,7 +130,7 @@ var result = await factory
 ```
 
 ### Data.Ef
-Ef library, available at [NuGet](https://www.nuget.org/packages/Gybs.Data.Ef), provides the wrappers around `DbContext` and `DbSet<>` for grouping the extensions with the queries.
+Ef library, available at [NuGet](https://www.nuget.org/packages/Gybs.Data.Ef/0.100.0), provides the wrappers around `DbContext` and `DbSet<>` for grouping the extensions with the queries.
 
 ```
 class Context : DbContext
@@ -150,7 +150,7 @@ new Context().Models.Queries().Active();
 ```
 
 ### Data.Repositories
-Repositories library, available at [NuGet](https://www.nuget.org/packages/Gybs.Data.Repositories), provides interfaces for repository and unit of work patterns.
+Repositories library, available at [NuGet](https://www.nuget.org/packages/Gybs.Data.Repositories/0.100.0), provides interfaces for repository and unit of work patterns.
 
 ## Why to use it?
 I don't know. You need to figure it out yourself.

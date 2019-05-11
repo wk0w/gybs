@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Gybs.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -55,15 +57,7 @@ namespace Gybs.DependencyInjection
                     continue;
                 }
 
-                // TODO:
-                // currently, singleton instance resolved by type and by interface, which resolve two different instances;
-                // consider linking singleton/scopes to the same instance
-                foreach (var implementedInterface in implementedInterfaces)
-                {
-                    serviceCollection.Add(new ServiceDescriptor(implementedInterface, assemblyType, serviceLifetime));
-                }
-
-                serviceCollection.Add(new ServiceDescriptor(assemblyType, assemblyType, serviceLifetime));
+                AddType(serviceCollection, implementedInterfaces, assemblyType, serviceLifetime);
             }
 
             return serviceCollection;
@@ -100,17 +94,16 @@ namespace Gybs.DependencyInjection
                     continue;
                 }
 
-                var implementedInterfaces = assemblyType.GetInterfaces();
-
-                foreach (var implementedInterface in implementedInterfaces)
-                {
-                    serviceCollection.Add(new ServiceDescriptor(implementedInterface, assemblyType, serviceLifetime));
-                }
-
-                serviceCollection.Add(new ServiceDescriptor(assemblyType, assemblyType, serviceLifetime));
+                AddType(serviceCollection, assemblyType.GetInterfaces(), assemblyType, serviceLifetime);
             }
 
             return serviceCollection;
+        }
+
+        private static void AddType(IServiceCollection serviceCollection, IEnumerable<Type> interfaceTypes, Type assemblyType, ServiceLifetime serviceLifetime)
+        {
+            serviceCollection.Add(new ServiceDescriptor(assemblyType, assemblyType, serviceLifetime));
+            interfaceTypes.ForEach(i => serviceCollection.Add(new ServiceDescriptor(i, p => p.GetService(assemblyType), serviceLifetime)));
         }
     }
 }

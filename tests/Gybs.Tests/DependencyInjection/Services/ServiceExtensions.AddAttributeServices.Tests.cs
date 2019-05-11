@@ -25,6 +25,15 @@ namespace Gybs.Tests.DependencyInjection.Services
         }
 
         [Fact]
+        public void ForSingletonShouldResolveSameByTypeAndInterface()
+        {
+            var serviceProvider = CreateServiceProvider();
+            var firstInstance = serviceProvider.GetService<SingletonMock>();
+            var secondInstance = serviceProvider.GetService<ISingletonMock>();
+            firstInstance.Should().Be(secondInstance);
+        }
+
+        [Fact]
         public void ForSingletonShouldResolveSameInstance()
         {
             var serviceProvider = CreateServiceProvider();

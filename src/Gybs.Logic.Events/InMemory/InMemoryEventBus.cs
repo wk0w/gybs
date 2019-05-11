@@ -60,7 +60,7 @@ namespace Gybs.Logic.Events.InMemory
             {
                 try
                 {
-                    await subscription.InvokeAsync(evnt);
+                    await subscription.InvokeAsync(evnt).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

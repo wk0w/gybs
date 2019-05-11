@@ -12,7 +12,10 @@ Base library, available at [NuGet](https://www.nuget.org/packages/Gybs/0.101.0),
 #### Extension methods
 Example usage:
 ```
-Task<bool> IsPresent(string str) => str.IsPresent().ToCompletedTask()
+Task<bool> IsPresent(string str) => str.IsPresent().ToCompletedTask();
+
+new [] { 1, 2, 3, 4 }.ForEach(e => Magic(e));
+await new [] { 1, 2, 3, 4 }.ForEach(async e => await MagicAsync(e));
 ```
 
 #### `IResult` and `Result`

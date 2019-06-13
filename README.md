@@ -103,12 +103,11 @@ await eventBus.SendAsync(new Event());
 ```
 
 ### Logic.Validation
-Validation, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Validation/0.100.0), allows to separate validation logic from the rest of the application. This is achived by grouping the implementations of `IValidationRule` interface into the single validator by `IValidatorFactory`.
+Validation, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Validation/0.100.0), allows to separate validation logic from the rest of the application. This is achived by grouping the implementations of `IValidationRule` interface into the single validator by `IValidator`.
 
 ```
 serviceCollection.AddGybs(builder => {
-    builder.AddValidatorFactory();
-    builder.AddValidationRules();
+    builder.AddValidation();
 );
 
 class StringIsPresentRule : IValidationRule<string>
@@ -121,12 +120,12 @@ class StringIsPresentRule : IValidationRule<string>
     }
 }
 
-IValidatorFactory factory;
+IValidator validator;
 
-var result = await factory
+var result = await validator
     .Require<StringIsPresentRule>
+        .WithOptions(o => o.StopIfFailed())
         .WithData("")
-        .StopIfFailed()
     .Require<StringIsPresentRule>
         .WithData(null)
     .ValidateAsync();

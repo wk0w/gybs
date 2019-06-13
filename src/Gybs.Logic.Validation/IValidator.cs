@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Gybs.Logic.Validation.Internal;
 
-namespace Gybs.Logic.Validation.Validator
+namespace Gybs.Logic.Validation
 {
     /// <summary>
     /// Combines and invokes multiple validation rules.
@@ -12,8 +12,8 @@ namespace Gybs.Logic.Validation.Validator
         /// Adds new validation rule.
         /// </summary>
         /// <typeparam name="TValidationRule">The type of the validation rule.</typeparam>
-        /// <returns>The validation rule builder.</returns>
-        IValidationRuleBuilder<TValidationRule> Require<TValidationRule>()
+        /// <returns>The configured validation rule.</returns>
+        ConfiguredValidationRule<TValidationRule> Require<TValidationRule>()
             where TValidationRule : IValidationRule;
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿namespace Gybs.Logic.Validation.Internal
 {
     /// <summary>
-    /// Represents a basic validation rule.
+    /// Represents a validation rule for the data.
     /// </summary>
     public interface IValidationRule
     {

@@ -1,10 +1,6 @@
-﻿using Gybs.Extensions;
-using Gybs.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Gybs.Results
 {
@@ -66,7 +62,7 @@ namespace Gybs.Results
         /// <param name="key">The key.</param>
         /// <param name="messages">The messages.</param>
         /// <returns>The result.</returns>
-        public static IResult Failure(string key, params string[] messages) => Result.Failure(new ResultErrorsDictionary().Add(key, messages));
+        public static IResult Failure(string key, params string[] messages) => Failure(new ResultErrorsDictionary().Add(key, messages));
 
         /// <summary>
         /// Creates the failed result with a single error.
@@ -75,6 +71,6 @@ namespace Gybs.Results
         /// <param name="propertyExpression">Expression used to generate the key.</param>
         /// <param name="messages">The messages.</param>
         /// <returns>The result.</returns>
-        public static IResult Failure<TType>(Expression<Func<TType, object>> propertyExpression, params string[] messages) => Result.Failure(new ResultErrorsDictionary().Add(propertyExpression, messages));
+        public static IResult Failure<TType>(Expression<Func<TType, object>> propertyExpression, params string[] messages) => Failure(new ResultErrorsDictionary().Add(propertyExpression, messages));
     }
 }

@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Gybs.Logic.Validation.Internal;
+﻿using Gybs.Logic.Validation.Internal;
+using System.Threading.Tasks;
 
 namespace Gybs.Logic.Validation
 {
     /// <summary>
-    /// Represents a data validation rule.
+    /// Represents a validation rule for the data.
     /// </summary>
     /// <typeparam name="TValidationData">The type of data to validate.</typeparam>
     public interface IValidationRule<in TValidationData> : IValidationRule
@@ -13,7 +13,7 @@ namespace Gybs.Logic.Validation
         /// Validates the data.
         /// </summary>
         /// <param name="data">The data to validate.</param>
-        /// <returns>The result of validation.</returns>
+        /// <returns>The result of the validation.</returns>
         Task<IResult> ValidateAsync(TValidationData data);
     }
 }

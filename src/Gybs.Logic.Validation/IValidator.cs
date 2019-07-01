@@ -17,9 +17,15 @@ namespace Gybs.Logic.Validation
             where TValidationRule : IValidationRule;
 
         /// <summary>
-        /// Invokes all rules from the validation builder and aggregates the results.
+        /// Invokes all rules and aggregates the results.
         /// </summary>
         /// <returns>The result of validation.</returns>
         Task<IResult> ValidateAsync();
+
+        /// <summary>
+        /// Invokes all rules, aggregates the results and throws exception if result has failed.
+        /// </summary>
+        /// <returns>Task representing an asynchronous operation.</returns>
+        Task EnsureValidAsync();
     }
 }

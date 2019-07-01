@@ -99,5 +99,15 @@ namespace Gybs.Logic.Validation.Internal
                 ? _resultFactory.CreateSuccess(aggregatedMetadata)
                 : _resultFactory.CreateFailure(aggregatedErrors, aggregatedMetadata);
         }
+
+        public async Task EnsureValidAsync()
+        {
+            var result = await ValidateAsync().ConfigureAwait(false);
+
+            if (!result.HasSucceeded)
+            {
+                throw new ValidationFailedException(result);
+            }
+        }
     }
 }

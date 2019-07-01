@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Gybs.Tests.Logic.Validation
 {
-    public class ValidatorTests
+    public class ValidatorValidateAsyncTests
     {
         [Fact]
         public async Task ForSuccessfulValidationShouldSucceeded()

@@ -1,6 +1,7 @@
 ﻿using Gybs.Internal;
 using Gybs.Logic.Events.InMemory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gybs.Logic.Events
 {
@@ -17,7 +18,7 @@ namespace Gybs.Logic.Events
         public static GybsServicesBuilder AddInMemoryEventBus(this GybsServicesBuilder servicesBuilder)
         {
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddSingleton<IEventBus, InMemoryEventBus>();
+                .TryAddSingleton<IEventBus, InMemoryEventBus>();
             return servicesBuilder;
         }
     }

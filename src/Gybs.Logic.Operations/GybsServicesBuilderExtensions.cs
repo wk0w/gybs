@@ -5,6 +5,7 @@ using Gybs.Logic.Operations.Factory;
 using Gybs.Logic.Operations.Factory.Internal;
 using Gybs.Logic.Operations.ServiceProvider;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gybs.Logic.Operations
 {
@@ -21,7 +22,7 @@ namespace Gybs.Logic.Operations
         public static GybsServicesBuilder AddServiceProviderOperationBus(this GybsServicesBuilder servicesBuilder)
         {
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddScoped<IOperationBus, ServiceProviderOperationBus>();
+                .TryAddScoped<IOperationBus, ServiceProviderOperationBus>();
             return servicesBuilder;
         }
 
@@ -33,7 +34,7 @@ namespace Gybs.Logic.Operations
         public static GybsServicesBuilder AddOperationFactory(this GybsServicesBuilder servicesBuilder)
         {
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .AddScoped<IOperationFactory, OperationFactory>();
+                .TryAddScoped<IOperationFactory, OperationFactory>();
             return servicesBuilder;
         }
 

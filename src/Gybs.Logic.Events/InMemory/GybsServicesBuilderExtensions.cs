@@ -1,10 +1,8 @@
-using Gybs.Internal;
-using Gybs.Results;
-using Gybs.Results.Internal;
+﻿using Gybs.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Gybs
+namespace Gybs.Logic.Events.InMemory
 {
     /// <summary>
     /// <see cref="GybsServicesBuilder"/> extensions.
@@ -12,14 +10,14 @@ namespace Gybs
     public static class GybsServicesBuilderExtensions
     {
         /// <summary>
-        /// Adds an implementation of <see cref="IResultFactory" /> using <see cref="Result"/>.
+        /// Adds the singleton in-memory implementation of <see cref="IEventBus"/>.
         /// </summary>
         /// <param name="servicesBuilder">The builder.</param>
         /// <returns>The builder.</returns>
-        public static GybsServicesBuilder AddDefaultResultFactory(this GybsServicesBuilder servicesBuilder)
+        public static GybsServicesBuilder AddInMemoryEventBus(this GybsServicesBuilder servicesBuilder)
         {
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
-                .TryAddTransient<IResultFactory, ResultFactory>();
+                .TryAddSingleton<IEventBus, InMemoryEventBus>();
             return servicesBuilder;
         }
     }

@@ -15,7 +15,7 @@ Example usage:
 Task<bool> IsPresent(string str) => str.IsPresent().ToCompletedTask();
 
 new [] { 1, 2, 3, 4 }.ForEach(e => Magic(e));
-await new [] { 1, 2, 3, 4 }.ForEach(async e => await MagicAsync(e));
+await new [] { 1, 2, 3, 4 }.ForEachAsync(async e => await MagicAsync(e));
 ```
 
 #### `IResult` and `Result`

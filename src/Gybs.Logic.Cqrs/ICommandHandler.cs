@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gybs.Logic.Operations;
+﻿using Gybs.Logic.Operations;
 
 namespace Gybs.Logic.Cqrs
 {
@@ -8,7 +7,7 @@ namespace Gybs.Logic.Cqrs
     /// </summary>
     /// <typeparam name="TCommand">The type of command to handle.</typeparam>
     public interface ICommandHandler<in TCommand> : IOperationHandler<TCommand>
-        where TCommand: ICommand, new()
+        where TCommand : ICommand, new()
     {
     }
 

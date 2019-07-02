@@ -2,6 +2,7 @@
 using Gybs.DependencyInjection;
 using Gybs.Internal;
 using Gybs.Logic.Validation.Internal;
+using Gybs.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

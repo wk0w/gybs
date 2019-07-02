@@ -1,8 +1,5 @@
-﻿using Gybs.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Gybs.Results
 {
@@ -46,7 +43,7 @@ namespace Gybs.Results
         /// <typeparam name="TData">The type of data.</typeparam>
         /// <returns>The result</returns>
         public static IResult<TData> AddMetadata<TData>(this IResult<TData> result, IReadOnlyDictionary<string, object> metadata)
-            => Result.Copy<TData>(result, result.Data, metadata: metadata);
+            => Result.Copy(result, result.Data, metadata: metadata);
 
         /// <summary>
         /// Adds the metadata and returns the new result.

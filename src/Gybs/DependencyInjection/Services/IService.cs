@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Gybs.DependencyInjection.Services
+﻿namespace Gybs.DependencyInjection.Services
 {
     /// <summary>
     /// Represents a service which is registered within dependency injection container as singleton.

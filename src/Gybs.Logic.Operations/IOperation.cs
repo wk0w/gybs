@@ -1,6 +1,4 @@
-﻿using Gybs;
-
-namespace Gybs.Logic.Operations
+﻿namespace Gybs.Logic.Operations
 {
     /// <summary>
     /// Represents a base interface for operation

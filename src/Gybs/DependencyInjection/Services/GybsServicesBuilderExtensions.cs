@@ -1,5 +1,4 @@
-﻿using Gybs.DependencyInjection;
-using Gybs.Internal;
+﻿using Gybs.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

@@ -12,13 +12,13 @@ namespace Gybs
         /// Adds Gybs services.
         /// </summary>
         /// <param name="serviceCollection">The service collection.</param>
-        /// <param name="builderAction">Builder action used to configure additional services.</param>
+        /// <param name="builder">Builder action used to configure additional services.</param>
         /// <returns>Services.</returns>
-        public static IServiceCollection AddGybs(this IServiceCollection serviceCollection, Action<GybsServicesBuilder> builderAction)
+        public static IServiceCollection AddGybs(this IServiceCollection serviceCollection, Action<GybsServicesBuilder> builder)
         {
-            if (builderAction == null) throw new ArgumentNullException(nameof(builderAction), "Builder action is required.");
+            if (builder == null) throw new ArgumentNullException(nameof(builder), "Builder action is required.");
 
-            builderAction.Invoke(new GybsServicesBuilder(serviceCollection));
+            builder.Invoke(new GybsServicesBuilder(serviceCollection));
             return serviceCollection;
         }
     }

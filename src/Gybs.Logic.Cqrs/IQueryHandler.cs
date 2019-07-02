@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gybs.Logic.Operations;
+﻿using Gybs.Logic.Operations;
 
 namespace Gybs.Logic.Cqrs
 {

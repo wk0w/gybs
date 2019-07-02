@@ -12,6 +12,10 @@ namespace Gybs.Logic.Validation
         /// </summary>
         public IResult Result { get; }
 
+        /// <summary>
+        /// Creates new instance of the exception.
+        /// </summary>
+        /// <param name="result">Validation result.</param>
         public ValidationFailedException(IResult result)
             : base("Validation failed.")
         {

@@ -10,6 +10,10 @@ namespace Gybs.Logic.Validation
     public sealed class ConfiguredValidationRule<TValidationRule> : ConfiguredValidationRule, IConfiguredValidationRule<TValidationRule>
         where TValidationRule : IValidationRule
     {
+        /// <summary>
+        /// Creates new instance of the rule.
+        /// </summary>
+        /// <param name="validator">Validator assigned with the rule.</param>
         public ConfiguredValidationRule(IValidator validator)
             : base(validator, typeof(TValidationRule))
         {

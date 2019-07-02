@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.100.1</Version>
+    <Version>1.0.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Description>Part of the GYBS which allows to group the application logic in CQRS-like manner.</Description>
@@ -18,13 +18,13 @@
     <DocumentationFile>bin\Release\netstandard2.0\Gybs.Logic.Cqrs.xml</DocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  
+
   <ItemGroup Condition="'$(Configuration)|$(Platform)'!='Release|AnyCPU'">
     <ProjectReference Include="..\Gybs.Logic.Operations\Gybs.Logic.Operations.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="Gybs.Logic.Operations" Version="[0.100.1, 1.0)" />
+    <PackageReference Include="Gybs.Logic.Operations" Version="[1.0, 2.0)" />
   </ItemGroup>
 
 </Project>

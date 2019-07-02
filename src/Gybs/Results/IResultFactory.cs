@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Gybs.Results
 {
+    /// <summary>
+    /// Represents a factory for thre results.
+    /// </summary>
     public interface IResultFactory
     {
         /// <summary>

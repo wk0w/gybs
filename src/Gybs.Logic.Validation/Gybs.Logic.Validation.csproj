@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.100.0</Version>
+    <Version>1.0.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Description>Part of the GYBS which allows to separate validation logic from the rest of the application.</Description>
@@ -18,13 +18,13 @@
     <DocumentationFile>bin\Release\netstandard2.0\Gybs.Logic.Validation.xml</DocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  
+
   <ItemGroup Condition="'$(Configuration)|$(Platform)'!='Release|AnyCPU'">
     <ProjectReference Include="..\Gybs\Gybs.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="Gybs" Version="[0.100.0, 1.0)" />
+    <PackageReference Include="Gybs" Version="[1.0, 2.0)" />
   </ItemGroup>
 
 </Project>

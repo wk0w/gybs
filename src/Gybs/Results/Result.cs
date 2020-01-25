@@ -32,7 +32,7 @@ namespace Gybs.Results
         /// <param name="errors">New errors; if null, source result's dictionary is used.</param>
         /// <param name="metadata">New metadata; if null, source result's dictionary is used.</param>
         /// <returns>The copy of the result.</returns>
-        public static IResult<TData> Copy<TData>(IResult result, TData data, IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors = null, IReadOnlyDictionary<string, object> metadata = null)
+        public static IResult<TData> Copy<TData>(IResult result, TData data, IReadOnlyDictionary<string, IReadOnlyCollection<string>>? errors = null, IReadOnlyDictionary<string, object>? metadata = null)
             => new Result<TData>(result.HasSucceeded, data) { Errors = errors ?? result.Errors, Metadata = metadata ?? result.Metadata };
 
         /// <summary>
@@ -47,14 +47,14 @@ namespace Gybs.Results
         /// Creates the successful result.
         /// </summary>
         /// <returns>The result.</returns>
-        public static IResult Success() => Success<object>(null);
+        public static IResult Success() => Success<object?>(default);
 
         /// <summary>
         /// Creates the failed result.
         /// </summary>
         /// <param name="errors">The dictionary of errors.</param>
         /// <returns>The result.</returns>
-        public static IResult Failure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors) => new Result<object>(false, default) { Errors = errors };
+        public static IResult Failure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors) => new Result<object?>(false, default) { Errors = errors };
 
         /// <summary>
         /// Creates the failed result with a single error.

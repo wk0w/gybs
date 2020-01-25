@@ -89,7 +89,7 @@ namespace Gybs.Tests.Results
         {
             var errors = new ResultErrorsDictionary();
             var result = errors.TryGetValue("key", out var value);
-            new { result, value }.Should().BeEquivalentTo(new { result = false, value = (IReadOnlyCollection<string>)null });
+            new { result, value }.Should().BeEquivalentTo(new { result = false, value = new string[0] });
         }
 
         [Fact]
@@ -124,7 +124,7 @@ namespace Gybs.Tests.Results
         {
             public int PropertyA { get; set; }
 
-            public InnerModel PropertyB { get; set; }
+            public InnerModel PropertyB { get; set; } = new InnerModel();
 
             public class InnerModel
             {

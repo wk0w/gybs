@@ -27,7 +27,7 @@ namespace Gybs.Logic.Validation.Internal
         {
             var convertedGroup = Convert.ChangeType(group, group.GetTypeCode()) as int?;
 
-            if (convertedGroup == null) throw new ArgumentException("Underlying type of enum is not int.", nameof(group));
+            if (convertedGroup is null) throw new ArgumentException("Underlying type of enum is not int.", nameof(group));
 
             _rule.Group = convertedGroup.Value;
             return this;
@@ -46,7 +46,7 @@ namespace Gybs.Logic.Validation.Internal
         {
             var convertedPriority = Convert.ChangeType(priority, priority.GetTypeCode()) as int?;
 
-            if (convertedPriority == null) throw new ArgumentException("Underlying type of enum is not int.", nameof(priority));
+            if (convertedPriority is null) throw new ArgumentException("Underlying type of enum is not int.", nameof(priority));
 
             _rule.Priority = convertedPriority.Value;
             return this;

@@ -1,9 +1,6 @@
 using FluentAssertions;
-using Gybs;
 using Gybs.Results;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Gybs.Tests.Results
@@ -43,7 +40,7 @@ namespace Gybs.Tests.Results
 
         private class Model
         {
-            public string Test { get; set; }
+            public string Test { get; set; } = string.Empty;
         }
     }
 }

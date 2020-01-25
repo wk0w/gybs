@@ -19,7 +19,7 @@ namespace Gybs.Logic.Validation
         /// <param name="servicesBuilder">The builder.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
-        public static GybsServicesBuilder AddValidation(this GybsServicesBuilder servicesBuilder, Assembly assembly = null)
+        public static GybsServicesBuilder AddValidation(this GybsServicesBuilder servicesBuilder, Assembly? assembly = null)
         {
             servicesBuilder.AddDefaultResultFactory();
 

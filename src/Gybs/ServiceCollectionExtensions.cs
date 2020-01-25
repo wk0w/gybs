@@ -16,7 +16,7 @@ namespace Gybs
         /// <returns>Services.</returns>
         public static IServiceCollection AddGybs(this IServiceCollection serviceCollection, Action<GybsServicesBuilder> builder)
         {
-            if (builder == null) throw new ArgumentNullException(nameof(builder), "Builder action is required.");
+            if (builder is null) throw new ArgumentNullException(nameof(builder), "Builder action is required.");
 
             builder.Invoke(new GybsServicesBuilder(serviceCollection));
             return serviceCollection;

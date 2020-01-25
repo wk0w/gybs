@@ -19,11 +19,9 @@ namespace Gybs.Extensions
         /// <returns>The binary data.</returns>
         public static byte[] SerializeToBinary(this object obj)
         {
-            using (var ms = new MemoryStream())
-            {
-                CreateFormatter().Serialize(ms, obj);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            CreateFormatter().Serialize(ms, obj);
+            return ms.ToArray();
         }
 
         /// <summary>
@@ -50,10 +48,8 @@ namespace Gybs.Extensions
         /// <returns>The deserialized object.</returns>
         public static object DeserializeFromBinary(this byte[] data)
         {
-            using (var ms = new MemoryStream(data))
-            {
-                return CreateFormatter().Deserialize(ms);
-            }
+            using var ms = new MemoryStream(data);
+            return CreateFormatter().Deserialize(ms);
         }
 
         private static BinaryFormatter CreateFormatter()

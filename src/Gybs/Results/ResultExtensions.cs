@@ -52,6 +52,6 @@ namespace Gybs.Results
         /// <param name="metadata">The metadata.</param>
         /// <returns>The result</returns>
         public static IResult AddMetadata(this IResult result, IReadOnlyDictionary<string, object> metadata)
-            => Result.Copy<object>(result, default, metadata: metadata);
+            => Result.Copy<object?>(result, default, metadata: metadata);
     }
 }

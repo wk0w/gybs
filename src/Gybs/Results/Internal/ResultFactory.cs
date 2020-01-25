@@ -4,11 +4,40 @@ namespace Gybs.Results.Internal
 {
     internal class ResultFactory : IResultFactory
     {
-        public IResult<TData> CreateSuccess<TData>(TData data, IReadOnlyDictionary<string, object> metadata) => Result.Success(data).AddMetadata(metadata);
+        public IResult<TData> CreateSuccess<TData>(TData data, IReadOnlyDictionary<string, object>? metadata)
+        {
+            var result = Result.Success(data);
 
-        public IResult CreateSuccess(IReadOnlyDictionary<string, object> metadata) => Result.Success().AddMetadata(metadata);
+            if (metadata is { })
+            {
+                result = result.AddMetadata(metadata);
+            }
 
-        public IResult CreateFailure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object> metadata) =>
-            Result.Failure(errors).AddMetadata(metadata);
+            return result;
+        }
+
+        public IResult CreateSuccess(IReadOnlyDictionary<string, object>? metadata)
+        {
+            var result = Result.Success();
+
+            if (metadata is { })
+            {
+                result = result.AddMetadata(metadata);
+            }
+
+            return result;
+        }
+
+        public IResult CreateFailure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
+        {
+            var result = Result.Failure(errors);
+
+            if (metadata is { })
+            {
+                result = result.AddMetadata(metadata);
+            }
+
+            return result;
+        }
     }
 }

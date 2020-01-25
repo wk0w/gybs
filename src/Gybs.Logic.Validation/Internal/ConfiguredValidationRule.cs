@@ -26,7 +26,7 @@ namespace Gybs.Logic.Validation.Internal
         internal int? Group { get; set; }
         internal int? Priority { get; set; }
         internal bool StopIfFailed { get; set; }
-        internal object Data { get; set; }
+        internal object? Data { get; set; }
 
         private protected ConfiguredValidationRule(IValidator validator, Type ruleType)
         {
@@ -38,7 +38,7 @@ namespace Gybs.Logic.Validation.Internal
         {
             var rule = serviceProvider.GetService(RuleType);
 
-            if (rule == null) throw new InvalidOperationException($"Validation rule of {RuleType.FullName} type cannot be resolved.");
+            if (rule is null) throw new InvalidOperationException($"Validation rule of {RuleType.FullName} type cannot be resolved.");
 
             var validateAsyncMethodInfo = ValidateAsyncMethodInfos.GetOrAdd(
                 RuleType,

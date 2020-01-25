@@ -17,7 +17,7 @@ namespace Gybs.Data.Repositories
         /// <param name="serviceLifetime">The lifetime of registered service.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
-        public static GybsServicesBuilder AddUnitOfWork(this GybsServicesBuilder servicesBuilder, ServiceLifetime serviceLifetime, Assembly assembly = null)
+        public static GybsServicesBuilder AddUnitOfWork(this GybsServicesBuilder servicesBuilder, ServiceLifetime serviceLifetime, Assembly? assembly = null)
         {
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
                 .AddTypesImplementingInterfaceFromAssembly(typeof(IUnitOfWork), assembly ?? Assembly.GetCallingAssembly(), serviceLifetime);
@@ -31,7 +31,7 @@ namespace Gybs.Data.Repositories
         /// <param name="serviceLifetime">The lifetime of registered service.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
         /// <returns>The builder.</returns>
-        public static GybsServicesBuilder AddRepositories(this GybsServicesBuilder servicesBuilder, ServiceLifetime serviceLifetime, Assembly assembly = null)
+        public static GybsServicesBuilder AddRepositories(this GybsServicesBuilder servicesBuilder, ServiceLifetime serviceLifetime, Assembly? assembly = null)
         {
             ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
                 .AddTypesImplementingInterfaceFromAssembly(typeof(IRepository<>), assembly ?? Assembly.GetCallingAssembly(), serviceLifetime);

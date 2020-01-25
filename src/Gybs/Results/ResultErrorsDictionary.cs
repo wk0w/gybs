@@ -65,14 +65,14 @@ namespace Gybs.Results
             var memberExpression = propertyExpression.Body as MemberExpression
                                    ?? (propertyExpression.Body as UnaryExpression)?.Operand as MemberExpression;
 
-            if (memberExpression == null)
+            if (memberExpression is null)
             {
                 throw new ArgumentException("Provided expression is not valid.", nameof(propertyExpression));
             }
 
             var names = new Stack<string>();
 
-            while (memberExpression != null)
+            while (memberExpression is { })
             {
                 names.Push(memberExpression.Member.Name);
                 memberExpression = memberExpression.Expression as MemberExpression;
@@ -109,7 +109,7 @@ namespace Gybs.Results
         {
             if (!_errors.TryGetValue(key, out var innerValue))
             {
-                value = null;
+                value = new string[0];
                 return false;
             }
 

@@ -82,7 +82,7 @@ namespace Gybs.Logic.Validation.Internal
 
             if (results.Count == 0)
             {
-                return _resultFactory.CreateSuccess(null);
+                return _resultFactory.CreateSuccess(default);
             }
 
             var hasAggregationSucceeded = results.All(r => r.HasSucceeded);

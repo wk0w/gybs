@@ -30,7 +30,7 @@ namespace Gybs.DependencyInjection
             ServiceLifetime serviceLifetime)
         {
             if (!interfaceType.IsInterface) throw new ArgumentException("Provided type needs to be an interface.", nameof(interfaceType));
-            if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+            if (assembly is null) throw new ArgumentNullException(nameof(assembly));
 
             var assemblyTypes = assembly.GetTypes().Where(t => !t.IsAbstract);
 
@@ -81,7 +81,7 @@ namespace Gybs.DependencyInjection
             ServiceLifetime serviceLifetime)
         {
             if (attributeType.IsAssignableFrom(typeof(Attribute))) throw new ArgumentException("Provided type needs to be an attribute.", nameof(attributeType));
-            if (assembly == null) throw new ArgumentNullException(nameof(assembly));
+            if (assembly is null) throw new ArgumentNullException(nameof(assembly));
 
             var assemblyTypes = assembly.GetTypes().Where(t => !t.IsAbstract);
 

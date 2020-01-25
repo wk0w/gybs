@@ -33,6 +33,7 @@ namespace Gybs.Logic.Validation
         /// <typeparam name="TData">Type of the data to validate.</typeparam>
         /// <returns>The validator.</returns>
         public static IValidator WithData<TData>(this IConfiguredValidationRule<IValidationRule<TData>> rule, TData data)
+            where TData : notnull
         {
             if (!(rule is ConfiguredValidationRule castedRule)) throw new ArgumentException("Rule is not of ConfiguredValidationRule type.", nameof(rule));
 

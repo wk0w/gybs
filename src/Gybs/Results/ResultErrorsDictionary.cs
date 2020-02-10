@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace Gybs.Results
 {
@@ -12,6 +13,7 @@ namespace Gybs.Results
     /// </summary>
     public sealed class ResultErrorsDictionary : IReadOnlyDictionary<string, IReadOnlyCollection<string>>
     {
+        private static readonly Regex ExpressionRegex = new Regex("([a-zA-Z0-9_]+)(?=\\.|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private readonly Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
 
         /// <summary>
@@ -26,7 +28,7 @@ namespace Gybs.Results
         public IEnumerable<string> Keys => _errors.Keys;
 
         /// <summary>
-        /// Gets a collection containging the values in the dictionary.
+        /// Gets a collection containing the values in the dictionary.
         /// </summary>
         public IEnumerable<IReadOnlyCollection<string>> Values => _errors.Values;
 
@@ -64,24 +66,21 @@ namespace Gybs.Results
         {
             var memberExpression = propertyExpression.Body as MemberExpression
                                    ?? (propertyExpression.Body as UnaryExpression)?.Operand as MemberExpression;
-
-            if (memberExpression is null)
-            {
-                throw new ArgumentException("Provided expression is not valid.", nameof(propertyExpression));
-            }
-
-            var names = new Stack<string>();
-
-            while (memberExpression is { })
-            {
-                names.Push(memberExpression.Member.Name);
-                memberExpression = memberExpression.Expression as MemberExpression;
-            }
-
-            var key = $"{typeof(TType).Name}.{string.Join(".", names)}";
+            
+            if (memberExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
+            
+            var keyParts = new [] { typeof(TType).Name }
+                .Concat(ExpressionRegex
+                    .Matches(memberExpression.ToString())
+                    .OfType<Match>()
+                    .Select(m => m.Value)
+                    .Skip(1)
+            );
+            var key = string.Join(".", keyParts);
+            
             return Add(key, messages);
         }
-
+        
         /// <summary>
         /// Converts stored data to a readonly dictionary.
         /// </summary>

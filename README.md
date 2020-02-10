@@ -30,12 +30,16 @@ return new Model().ToSuccessfulResult();
 ```
 return Result.Failure("Field1", "value");
 return Result.Failure<Model>(m => m.Field2, "value");
+return Result.Failure<Model>(m => m.Collection1.First().Field3, "value");
+return Result.Failure<Model>(m => m.List1[0].Field4, "value");
 ```
 
 ```
 var errors = new ResultErrorsDictionary();
 errors.Add("Field1", "value");
 errors.Add<Model>(m => m.Field2, "value");
+errors.Add<Model>(m => m.Collection1.First().Field3, "value");
+errors.Add<Model>(m => m.List1[0].Field4, "value");
 return Result.Failure(errors).Map<Model>();
 ```
 

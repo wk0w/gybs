@@ -17,6 +17,14 @@ namespace Gybs.Results
         public static IResult<TData> ToSuccessfulResult<TData>(this TData data) => Result.Success(data);
 
         /// <summary>
+        /// Creates the successful result if dictionary is empty or failed result otherwise. 
+        /// </summary>
+        /// <param name="dictionary">Dictionary with errors.</param>
+        /// <returns>The result.</returns>
+        public static IResult ToResult(this ResultErrorsDictionary dictionary)
+            => dictionary.Count == 0 ? Result.Success() : Result.Failure(dictionary);
+        
+        /// <summary>
         /// Maps the result into a new one.
         /// </summary>
         /// <typeparam name="TOutputData">The type of output data.</typeparam>

@@ -13,16 +13,13 @@ namespace Gybs.Logic.Validation.Internal
         private readonly ILogger<Validator> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly List<ConfiguredValidationRule> _validationRules = new List<ConfiguredValidationRule>();
-        private readonly IResultFactory _resultFactory;
-
+        
         public Validator(
             ILogger<Validator> logger,
-            IServiceProvider serviceProvider,
-            IResultFactory resultFactory)
+            IServiceProvider serviceProvider)
         {
             _logger = logger;
             _serviceProvider = serviceProvider;
-            _resultFactory = resultFactory;
         }
 
         public ConfiguredValidationRule<TValidationRule> Require<TValidationRule>()
@@ -82,7 +79,7 @@ namespace Gybs.Logic.Validation.Internal
 
             if (results.Count == 0)
             {
-                return _resultFactory.CreateSuccess(default);
+                return Result.Factory.CreateSuccess(default);
             }
 
             var hasAggregationSucceeded = results.All(r => r.HasSucceeded);
@@ -96,8 +93,8 @@ namespace Gybs.Logic.Validation.Internal
                 .ToDictionary(g => g.Key, g => g.First().Value);
 
             return hasAggregationSucceeded
-                ? _resultFactory.CreateSuccess(aggregatedMetadata)
-                : _resultFactory.CreateFailure(aggregatedErrors, aggregatedMetadata);
+                ? Result.Factory.CreateSuccess(aggregatedMetadata)
+                : Result.Factory.CreateFailure(aggregatedErrors, aggregatedMetadata);
         }
 
         public async Task EnsureValidAsync()

@@ -6,38 +6,32 @@ namespace Gybs.Results.Internal
     {
         public IResult<TData> CreateSuccess<TData>(TData data, IReadOnlyDictionary<string, object>? metadata)
         {
-            var result = Result.Success(data);
+            var result = new Result<TData>(true, data);
 
             if (metadata is { })
             {
-                result = result.AddMetadata(metadata);
+                result.Metadata = metadata;
             }
 
             return result;
         }
 
         public IResult CreateSuccess(IReadOnlyDictionary<string, object>? metadata)
+            => CreateSuccess<object?>(default, metadata);
+        
+        public IResult<TData> CreateFailure<TData>(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
         {
-            var result = Result.Success();
-
+            var result = new Result<TData>(false, default) { Errors = errors };
+            
             if (metadata is { })
             {
-                result = result.AddMetadata(metadata);
+                result.Metadata = metadata;
             }
 
             return result;
         }
 
         public IResult CreateFailure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
-        {
-            var result = Result.Failure(errors);
-
-            if (metadata is { })
-            {
-                result = result.AddMetadata(metadata);
-            }
-
-            return result;
-        }
+            => CreateFailure<object?>(errors, metadata);
     }
 }

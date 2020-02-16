@@ -21,8 +21,6 @@ namespace Gybs.Logic.Validation
         /// <returns>The builder.</returns>
         public static GybsServicesBuilder AddValidation(this GybsServicesBuilder servicesBuilder, Assembly? assembly = null)
         {
-            servicesBuilder.AddDefaultResultFactory();
-
             var serviceCollection = ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance;
             serviceCollection.TryAddTransient<IValidator, Validator>();
 

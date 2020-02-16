@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Gybs.Results
 {
     /// <summary>
-    /// Represents a factory for thre results.
+    /// Represents a factory for the results.
     /// </summary>
     public interface IResultFactory
     {
@@ -23,6 +23,15 @@ namespace Gybs.Results
         /// <returns>The result.</returns>
         IResult CreateSuccess(IReadOnlyDictionary<string, object>? metadata);
 
+        /// <summary>
+        /// Creates the failed result.
+        /// </summary>
+        /// <typeparam name="TData">The type of returned data.</typeparam>
+        /// <param name="errors">The dictionary of errors.</param>
+        /// <param name="metadata">The additional metadata fields.</param>
+        /// <returns>The result.</returns>
+        IResult<TData> CreateFailure<TData>(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata);
+        
         /// <summary>
         /// Creates the failed result.
         /// </summary>

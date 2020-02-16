@@ -1,10 +1,7 @@
-using FluentAssertions;
-using Gybs;
-using Gybs.Results;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using FluentAssertions;
+using Gybs.Results;
 using Xunit;
 
 namespace Gybs.Tests.Results

@@ -51,7 +51,7 @@ namespace Gybs.Tests.Logic.Validation
                     .AddGybs(builder => builder.AddValidation())
             );
 
-            return new Validator(logger, serviceProvider, new ResultFactory());
+            return new Validator(logger, serviceProvider);
         }
 
         private class SucceededRule : IValidationRule<string>

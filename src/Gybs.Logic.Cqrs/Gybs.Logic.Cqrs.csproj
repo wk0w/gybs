@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Description>Part of the GYBS which allows to group the application logic in CQRS-like manner.</Description>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PackageReference Include="Gybs.Logic.Operations" Version="[1.1, 2.0)" />
+    <PackageReference Include="Gybs.Logic.Operations" Version="[1.2, 2.0)" />
   </ItemGroup>
 
 </Project>

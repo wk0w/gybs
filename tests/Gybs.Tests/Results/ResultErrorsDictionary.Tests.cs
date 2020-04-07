@@ -44,7 +44,7 @@ namespace Gybs.Tests.Results
             errors.Add<Model>(m => m.PropertyB.PropertyC.PropertyD, "value");
             errors.Should().BeEquivalentTo(new Dictionary<string, string[]> { [$"Model.{nameof(Model.PropertyB)}.{nameof(Model.PropertyB.PropertyC)}.{nameof(Model.PropertyB.PropertyC.PropertyD)}"] = new[] { "value" } });
         }
-        
+
         [Fact]
         public void ForKeyFromNestedCollectionsWithMethodsShouldAddNewErrorWithProperName()
         {
@@ -52,7 +52,7 @@ namespace Gybs.Tests.Results
             errors.Add<Model>(m => m.CollectionA.First().CollectionB.First().PropertyD, "value");
             errors.Should().BeEquivalentTo(new Dictionary<string, string[]> { [$"Model.{nameof(Model.CollectionA)}.{nameof(Model.PropertyB.CollectionB)}.{nameof(Model.PropertyB.PropertyC.PropertyD)}"] = new[] { "value" } });
         }
-        
+
         [Fact]
         public void ForKeyFromNestedCollectionsWithIndexersShouldAddNewErrorWithProperName()
         {
@@ -140,7 +140,7 @@ namespace Gybs.Tests.Results
             public InnerModel PropertyB { get; set; } = new InnerModel();
 
             public IList<InnerModel> CollectionA { get; set; } = new List<InnerModel>();
-            
+
             public class InnerModel
             {
                 public IList<InnerModelInnerStruct> CollectionB { get; set; } = new List<InnerModelInnerStruct>();

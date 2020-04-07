@@ -23,7 +23,7 @@ namespace Gybs.Logic.Operations.Factory.Internal
         public IOperationProxy<TOperation> Create<TOperation>()
             where TOperation : IOperationBase, new()
         {
-            return CreateProxy((Action<TOperation>?)null);
+            return CreateProxy(new TOperation(), null);
         }
 
         public IOperationProxy<TOperation> Create<TOperation>(Action<TOperation> initializer)
@@ -31,14 +31,29 @@ namespace Gybs.Logic.Operations.Factory.Internal
         {
             if (initializer is null) throw new ArgumentNullException(nameof(initializer));
 
-            return CreateProxy(initializer);
+            return CreateProxy(new TOperation(), initializer);
         }
 
-        private IOperationProxy<TOperation> CreateProxy<TOperation>(Action<TOperation>? initializer)
+        public IOperationProxy<TOperation> UseExisting<TOperation>(TOperation operation)
             where TOperation : IOperationBase, new()
         {
-            var operation = new TOperation();
+            if (operation is null) throw new ArgumentNullException(nameof(operation));
 
+            return CreateProxy(operation, null);
+        }
+
+        public IOperationProxy<TOperation> UseExisting<TOperation>(TOperation operation, Action<TOperation> initializer)
+            where TOperation : IOperationBase, new()
+        {
+            if (operation is null) throw new ArgumentNullException(nameof(operation));
+            if (initializer is null) throw new ArgumentNullException(nameof(initializer));
+
+            return CreateProxy(operation, initializer);
+        }
+
+        private IOperationProxy<TOperation> CreateProxy<TOperation>(TOperation operation, Action<TOperation>? initializer)
+            where TOperation : IOperationBase, new()
+        {
             _operationInitializers.ForEach(i => i.Initialize(operation));
             initializer?.Invoke(operation);
 

@@ -13,7 +13,7 @@ namespace Gybs.Logic.Validation.Internal
         private readonly ILogger<Validator> _logger;
         private readonly IServiceProvider _serviceProvider;
         private readonly List<ConfiguredValidationRule> _validationRules = new List<ConfiguredValidationRule>();
-        
+
         public Validator(
             ILogger<Validator> logger,
             IServiceProvider serviceProvider)

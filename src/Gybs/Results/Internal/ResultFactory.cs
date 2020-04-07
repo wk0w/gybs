@@ -18,11 +18,11 @@ namespace Gybs.Results.Internal
 
         public IResult CreateSuccess(IReadOnlyDictionary<string, object>? metadata)
             => CreateSuccess<object?>(default, metadata);
-        
+
         public IResult<TData> CreateFailure<TData>(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
         {
             var result = new Result<TData>(false, default) { Errors = errors };
-            
+
             if (metadata is { })
             {
                 result.Metadata = metadata;

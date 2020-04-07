@@ -8,20 +8,39 @@ namespace Gybs.Logic.Operations.Factory
     public interface IOperationFactory
     {
         /// <summary>
-        /// Creates the operation.
+        /// Creates and initializes new operation.
         /// </summary>
         /// <typeparam name="TOperation">Type implementing <see cref="IOperationBase"/>.</typeparam>
         /// <returns>Operation to handle.</returns>
         IOperationProxy<TOperation> Create<TOperation>()
-            where TOperation: IOperationBase, new();
+            where TOperation : IOperationBase, new();
 
         /// <summary>
-        /// Creates operation.
+        /// Creates and initializes new operation.
         /// </summary>
         /// <typeparam name="TOperation">Type implementing <see cref="IOperationBase"/>.</typeparam>
-        /// <param name="initializer">Action which initializes operation. Invoked after <see cref="IOperationInitializer"/> implementations.</param>
+        /// <param name="initializer">Action which initializes the operation. Invoked after <see cref="IOperationInitializer"/> implementations.</param>
         /// <returns>Operation to handle.</returns>
         IOperationProxy<TOperation> Create<TOperation>(Action<TOperation> initializer)
-            where TOperation: IOperationBase, new();
+            where TOperation : IOperationBase, new();
+
+        /// <summary>
+        /// Uses existing operation and initializes it.
+        /// </summary>
+        /// <param name="operation">Operation.</param>
+        /// <typeparam name="TOperation">Type implementing <see cref="IOperationBase"/>.</typeparam>
+        /// <returns>Operation to handle.</returns>
+        IOperationProxy<TOperation> UseExisting<TOperation>(TOperation operation)
+            where TOperation : IOperationBase, new();
+
+        /// <summary>
+        /// Uses existing operation and initializes it.
+        /// </summary>
+        /// <param name="operation">Operation.</param>
+        /// <param name="initializer">Action which initializes the operation. Invoked after <see cref="IOperationInitializer"/> implementations.</param>
+        /// <typeparam name="TOperation">Type implementing <see cref="IOperationBase"/>.</typeparam>
+        /// <returns>Operation to handle.</returns>
+        IOperationProxy<TOperation> UseExisting<TOperation>(TOperation operation, Action<TOperation> initializer)
+            where TOperation : IOperationBase, new();
     }
 }

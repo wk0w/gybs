@@ -31,7 +31,7 @@ namespace Gybs.Results
         /// <param name="metadata">The additional metadata fields.</param>
         /// <returns>The result.</returns>
         IResult<TData> CreateFailure<TData>(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata);
-        
+
         /// <summary>
         /// Creates the failed result.
         /// </summary>

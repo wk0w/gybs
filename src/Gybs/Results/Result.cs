@@ -11,10 +11,10 @@ namespace Gybs.Results
     public static class Result
     {
         /// <summary>
-        /// Gets or sets the factory used to create the results. 
+        /// Gets or sets the factory used to create the results.
         /// </summary>
         /// <remarks>
-        /// Defaults to internal implementation. 
+        /// Defaults to internal implementation.
         /// </remarks>
         public static IResultFactory Factory { get; set; } = new ResultFactory();
 

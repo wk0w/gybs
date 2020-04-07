@@ -66,10 +66,10 @@ namespace Gybs.Results
         {
             var memberExpression = propertyExpression.Body as MemberExpression
                                    ?? (propertyExpression.Body as UnaryExpression)?.Operand as MemberExpression;
-            
+
             if (memberExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
-            
-            var keyParts = new [] { typeof(TType).Name }
+
+            var keyParts = new[] { typeof(TType).Name }
                 .Concat(ExpressionRegex
                     .Matches(memberExpression.ToString())
                     .OfType<Match>()
@@ -77,10 +77,10 @@ namespace Gybs.Results
                     .Skip(1)
             );
             var key = string.Join(".", keyParts);
-            
+
             return Add(key, messages);
         }
-        
+
         /// <summary>
         /// Converts stored data to a readonly dictionary.
         /// </summary>

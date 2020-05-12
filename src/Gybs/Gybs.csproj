@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Description>GYBS is a set of small but useful things for any .NET Standard project.</Description>

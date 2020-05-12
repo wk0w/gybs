@@ -6,7 +6,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Gybs.Logic.Operations.ServiceProvider
 {
-    internal class ServiceProviderOperationBus : IOperationBus
+    /// <summary>
+    /// Represents a bus handling operation via handlers resolved from a service provider.
+    /// </summary>
+    public class ServiceProviderOperationBus : IOperationBus
     {
         private static readonly Type OperationHandlerType = typeof(IOperationHandler<>);
         private static readonly Type DataOperationHandlerType = typeof(IOperationHandler<,>);
@@ -15,6 +18,11 @@ namespace Gybs.Logic.Operations.ServiceProvider
         private readonly ILogger<ServiceProviderOperationBus> _logger;
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// Creates an instance of the bus.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        /// <param name="serviceProvider">Service provider used to resolve the handlers.</param>
         public ServiceProviderOperationBus(
             ILogger<ServiceProviderOperationBus> logger,
             IServiceProvider serviceProvider)
@@ -23,11 +31,21 @@ namespace Gybs.Logic.Operations.ServiceProvider
             _serviceProvider = serviceProvider;
         }
 
+        /// <summary>
+        /// Handles the operation.
+        /// </summary>
+        /// <param name="operation">The operation to handle.</param>
+        /// <returns>The result.</returns>
         public Task<IResult> HandleAsync(IOperation operation)
         {
             return (Task<IResult>)Handle(operation, OperationHandlerType, null);
         }
 
+        /// <summary>
+        /// Handles the operation.
+        /// </summary>
+        /// <param name="operation">The operation to handle.</param>
+        /// <returns>The result with data.</returns>
         public Task<IResult<TData>> HandleAsync<TData>(IOperation<TData> operation)
         {
             return (Task<IResult<TData>>)Handle(operation, DataOperationHandlerType, typeof(TData));

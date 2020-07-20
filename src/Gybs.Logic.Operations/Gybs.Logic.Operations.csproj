@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.2.1</Version>
+    <Version>1.3.0</Version>
     <Authors>wk0w</Authors>
     <Product>Gybs</Product>
     <Description>Part of the GYBS which allows to decouple the operation contracts from the handler implementations.</Description>

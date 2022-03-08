@@ -8,19 +8,24 @@ namespace Gybs.Tests.DependencyInjection.Services
 {
     public class ServiceExtensionsAddAttributeServicesTests
     {
-        [Fact]
-        public void ForSingletonShouldResolveByType()
+        private const string Group1 = "grp1";
+        private const string Group2 = "grp2";
+
+        [Theory]
+        [InlineData(typeof(SingletonMock)), InlineData(typeof(ScopedMock)), InlineData(typeof(TransientMock))]
+        public void ForTypeShouldResolveByType(Type registeredType)
         {
             var serviceProvider = CreateServiceProvider();
-            var instance = serviceProvider.GetService<SingletonMock>();
+            var instance = serviceProvider.GetService(registeredType);
             instance.Should().NotBeNull();
         }
 
-        [Fact]
-        public void ForSingletonShouldResolveByInterface()
+        [Theory]
+        [InlineData(typeof(SingletonMock)), InlineData(typeof(ScopedMock)), InlineData(typeof(TransientMock))]
+        public void ForTypeShouldResolveByInterface(Type registeredType)
         {
             var serviceProvider = CreateServiceProvider();
-            var instance = serviceProvider.GetService<ISingletonMock>();
+            var instance = serviceProvider.GetService(registeredType);
             instance.Should().NotBeNull();
         }
 
@@ -44,22 +49,6 @@ namespace Gybs.Tests.DependencyInjection.Services
         }
 
         [Fact]
-        public void ForScopedShouldResolveByType()
-        {
-            var serviceProvider = CreateServiceProvider();
-            var instance = serviceProvider.GetService<ScopedMock>();
-            instance.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void ForScopedShouldResolveByInterface()
-        {
-            var serviceProvider = CreateServiceProvider();
-            var instance = serviceProvider.GetService<IScopedMock>();
-            instance.Should().NotBeNull();
-        }
-
-        [Fact]
         public void ForScopedWithinScopeShouldResolveSameInstance()
         {
             var scopeServiceProvider = CreateServiceProvider().CreateScope().ServiceProvider;
@@ -79,22 +68,6 @@ namespace Gybs.Tests.DependencyInjection.Services
         }
 
         [Fact]
-        public void ForTransientShouldResolveByType()
-        {
-            var serviceProvider = CreateServiceProvider();
-            var instance = serviceProvider.GetService<TransientMock>();
-            instance.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void ForTransientShouldResolveByInterface()
-        {
-            var serviceProvider = CreateServiceProvider();
-            var instance = serviceProvider.GetService<ITransientMock>();
-            instance.Should().NotBeNull();
-        }
-
-        [Fact]
         public void ForTransientShouldResolveSeparateInstances()
         {
             var serviceProvider = CreateServiceProvider();
@@ -104,18 +77,39 @@ namespace Gybs.Tests.DependencyInjection.Services
             firstInstance.Should().NotBe(secondInstance);
         }
 
-        private IServiceProvider CreateServiceProvider()
+        [Theory]
+        [InlineData(typeof(SingletonMock), Group1), InlineData(typeof(ScopedMock), Group2)]
+        public void ForGroupServicesShouldResolveTypesInGroup(Type type, string group)
+        {
+            var serviceProvider = CreateServiceProvider(group);
+            var instance = serviceProvider.GetService(type);
+
+            instance.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void ForGroupServicesShouldNotResolveTypesOutOfGroup()
+        {
+            var serviceProvider = CreateServiceProvider(Group1);
+            var differentGroupInstance = serviceProvider.GetService<ScopedMock>();
+            var nonGroupInstance = serviceProvider.GetService<TransientMock>();
+
+            differentGroupInstance.Should().BeNull();
+            nonGroupInstance.Should().BeNull();
+        }
+
+        private IServiceProvider CreateServiceProvider(string? group = null)
         {
             var factory = new DefaultServiceProviderFactory();
             return factory.CreateServiceProvider(
-                new ServiceCollection().AddGybs(builder => builder.AddAttributeServices())
+                new ServiceCollection().AddGybs(builder => builder.AddAttributeServices(group: group))
             );
         }
 
         private interface ISingletonMock { }
-        [SingletonService] private class SingletonMock : ISingletonMock { }
+        [SingletonService, SingletonService(Group1)] private class SingletonMock : ISingletonMock { }
         private interface IScopedMock { }
-        [ScopedService] private class ScopedMock : IScopedMock { }
+        [ScopedService, ScopedService(Group2)] private class ScopedMock : IScopedMock { }
         private interface ITransientMock { }
         [TransientService] private class TransientMock : ITransientMock { }
     }

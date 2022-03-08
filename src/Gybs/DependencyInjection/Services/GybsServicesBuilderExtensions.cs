@@ -1,5 +1,7 @@
 ﻿using Gybs.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Gybs.DependencyInjection.Services
@@ -30,14 +32,32 @@ namespace Gybs.DependencyInjection.Services
         /// </summary>
         /// <param name="servicesBuilder">The builder.</param>
         /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
-        public static GybsServicesBuilder AddAttributeServices(this GybsServicesBuilder servicesBuilder, Assembly? assembly = default)
+        public static GybsServicesBuilder AddAttributeServices(
+            this GybsServicesBuilder servicesBuilder,
+            Assembly? assembly = default,
+            string? group = default)
         {
             var serviceCollection = ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance;
+            
+            serviceCollection.AddMatchingTypesFromAssembly(
+                type =>
+                {
+                    var attributes = type.GetCustomAttributes()
+                        .Where(a => typeof(ServiceAttribute).IsAssignableFrom(a.GetType()))
+                        .Cast<ServiceAttribute>()
+                        .Where(a => a.Group == group)
+                        .ToList();
 
-            serviceCollection.AddTypesWithAttributeFromAssembly(typeof(SingletonServiceAttribute), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Singleton);
-            serviceCollection.AddTypesWithAttributeFromAssembly(typeof(ScopedServiceAttribute), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Scoped);
-            serviceCollection.AddTypesWithAttributeFromAssembly(typeof(TransientServiceAttribute), assembly ?? Assembly.GetCallingAssembly(), ServiceLifetime.Transient);
+                    if (!attributes.Any())
+                    {
+                        return default;
+                    }
 
+                    return attributes.Last().ServiceLifetime;
+                },
+                assembly ?? Assembly.GetCallingAssembly()
+            );
+            
             return servicesBuilder;
         }
     }

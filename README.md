@@ -51,9 +51,13 @@ class DummyScopedService : IScopedService {}
 [SingletonService]
 class DummySingletonService {}
 
+[SingletonService, SingletonService("special")]
+class DummySpecialSingletonService {}
+
 serviceCollection.AddGybs(builder => {
     builder.AddInterfaceServices();
     builder.AddAttributeServices();
+    builder.AddAttributeServices(group: "special");
 );
 ```
 

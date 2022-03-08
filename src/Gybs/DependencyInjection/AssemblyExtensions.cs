@@ -100,6 +100,41 @@ namespace Gybs.DependencyInjection
             return serviceCollection;
         }
 
+        /// <summary>
+        /// Adds all types matched by predicate from the assembly.
+        /// </summary>
+        /// <remarks>
+        /// Registration is done for the type itself and each interface implemented by it, not only the requested one.
+        /// </remarks>
+        /// <param name="serviceCollection">Service collection.</param>
+        /// <param name="predicate">The predicate which returns service lifetime for types to be added or default value otherwise.</param>
+        /// <param name="assembly">The assembly with types to add.</param>
+        /// <returns>Service collection.</returns>
+        public static IServiceCollection AddMatchingTypesFromAssembly(
+            this IServiceCollection serviceCollection,
+            Func<Type, ServiceLifetime?> predicate,
+            Assembly assembly)
+        {
+            if (predicate is null) throw new ArgumentNullException(nameof(predicate));
+            if (assembly is null) throw new ArgumentNullException(nameof(assembly));
+
+            var assemblyTypes = assembly.GetTypes().Where(t => !t.IsAbstract);
+
+            foreach (var assemblyType in assemblyTypes)
+            {
+                var serviceLifetime = predicate(assemblyType);
+
+                if (serviceLifetime is null)
+                {
+                    continue;
+                }
+
+                AddType(serviceCollection, assemblyType.GetInterfaces(), assemblyType, serviceLifetime.Value);
+            }
+
+            return serviceCollection;        
+        }
+
         private static void AddType(IServiceCollection serviceCollection, IEnumerable<Type> interfaceTypes, Type assemblyType, ServiceLifetime serviceLifetime)
         {
             serviceCollection.Add(new ServiceDescriptor(assemblyType, assemblyType, serviceLifetime));

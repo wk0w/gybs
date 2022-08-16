@@ -1,25 +1,24 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Gybs
+namespace Gybs;
+
+/// <summary>
+/// Service collection extensions.
+/// </summary>
+public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Service collection extensions.
+    /// Adds Gybs services.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    /// <param name="serviceCollection">The service collection.</param>
+    /// <param name="builder">Builder action used to configure additional services.</param>
+    /// <returns>Services.</returns>
+    public static IServiceCollection AddGybs(this IServiceCollection serviceCollection, Action<GybsServicesBuilder> builder)
     {
-        /// <summary>
-        /// Adds Gybs services.
-        /// </summary>
-        /// <param name="serviceCollection">The service collection.</param>
-        /// <param name="builder">Builder action used to configure additional services.</param>
-        /// <returns>Services.</returns>
-        public static IServiceCollection AddGybs(this IServiceCollection serviceCollection, Action<GybsServicesBuilder> builder)
-        {
-            if (builder is null) throw new ArgumentNullException(nameof(builder), "Builder action is required.");
+        if (builder is null) throw new ArgumentNullException(nameof(builder), "Builder action is required.");
 
-            builder.Invoke(new GybsServicesBuilder(serviceCollection));
-            return serviceCollection;
-        }
+        builder.Invoke(new GybsServicesBuilder(serviceCollection));
+        return serviceCollection;
     }
 }

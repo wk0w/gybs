@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -17,7 +16,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <DocumentationFile>bin\Release\netstandard2.0\Gybs.Data.Repositories.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\net6.0\Gybs.Data.Repositories.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(Configuration)|$(Platform)'!='Release|AnyCPU'">

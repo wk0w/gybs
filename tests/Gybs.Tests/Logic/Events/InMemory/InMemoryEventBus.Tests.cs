@@ -7,64 +7,63 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Gybs.Tests.Logic.Events.InMemory
+namespace Gybs.Tests.Logic.Events.InMemory;
+
+public class InMemoryEventBusTests
 {
-    public class InMemoryEventBusTests
+    [Fact]
+    public async Task ForSendEventActionsAreInvoked()
     {
-        [Fact]
-        public async Task ForSendEventActionsAreInvoked()
+        var bus = CreateBus();
+        var count = 0;
+        const int expectedCount = 3;
+
+        for (var i = 0; i < expectedCount; i++)
         {
-            var bus = CreateBus();
-            var count = 0;
-            const int expectedCount = 3;
-
-            for (var i = 0; i < expectedCount; i++)
-            {
-                await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
-            }
-            await bus.SendAsync(new Event());
-
-            count.Should().Be(expectedCount);
-        }
-
-        [Fact]
-        public async Task ForFailedActionOtherActionsAreInvoked()
-        {
-            var bus = CreateBus();
-            var count = 0;
-
             await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
-            await bus.SubscribeAsync<Event>(_ => throw new InvalidOperationException());
-            await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
-            await bus.SendAsync(new Event());
-
-            count.Should().Be(2);
         }
+        await bus.SendAsync(new Event());
 
-        [Fact]
-        public async Task ForCanceledSubscriptionActionIsNotInvoked()
-        {
-            var bus = CreateBus();
-            var count = 0;
+        count.Should().Be(expectedCount);
+    }
 
-            var subscription = await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
-            subscription.Cancel();
-            await bus.SendAsync(new Event());
+    [Fact]
+    public async Task ForFailedActionOtherActionsAreInvoked()
+    {
+        var bus = CreateBus();
+        var count = 0;
 
-            count.Should().Be(0);
-        }
+        await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
+        await bus.SubscribeAsync<Event>(_ => throw new InvalidOperationException());
+        await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
+        await bus.SendAsync(new Event());
 
-        [Fact]
-        public async Task ForNoSubscribersEventIsSend()
-        {
-            var bus = CreateBus();
-            await bus.SendAsync(new Event());
-        }
+        count.Should().Be(2);
+    }
 
-        private InMemoryEventBus CreateBus() => new InMemoryEventBus(Substitute.For<ILogger<InMemoryEventBus>>());
+    [Fact]
+    public async Task ForCanceledSubscriptionActionIsNotInvoked()
+    {
+        var bus = CreateBus();
+        var count = 0;
 
-        private class Event : IEvent
-        {
-        }
+        var subscription = await bus.SubscribeAsync<Event>(_ => { count++; return Task.CompletedTask; });
+        subscription.Cancel();
+        await bus.SendAsync(new Event());
+
+        count.Should().Be(0);
+    }
+
+    [Fact]
+    public async Task ForNoSubscribersEventIsSend()
+    {
+        var bus = CreateBus();
+        await bus.SendAsync(new Event());
+    }
+
+    private InMemoryEventBus CreateBus() => new(Substitute.For<ILogger<InMemoryEventBus>>());
+
+    private class Event : IEvent
+    {
     }
 }

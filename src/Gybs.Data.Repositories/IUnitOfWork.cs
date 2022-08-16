@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
 
-namespace Gybs.Data.Repositories
+namespace Gybs.Data.Repositories;
+
+/// <summary>
+/// Represents a unit of work.
+/// </summary>
+public interface IUnitOfWork
 {
     /// <summary>
-    /// Represents a unit of work.
+    /// Saves all changes made within unit to the underlying persistence mechanism.
     /// </summary>
-    public interface IUnitOfWork
-    {
-        /// <summary>
-        /// Saves all changes made within unit to the underlying persistence mechanism.
-        /// </summary>
-        /// <returns>A task which represents an asynchronous operation.</returns>
-        Task SaveChangesAsync();
-    }
+    /// <returns>A task which represents an asynchronous operation.</returns>
+    Task SaveChangesAsync();
 }

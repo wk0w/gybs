@@ -1,9 +1,8 @@
-﻿namespace Gybs.Logic.Events
+﻿namespace Gybs.Logic.Events;
+
+/// <summary>
+/// Represents an event.
+/// </summary>
+public interface IEvent
 {
-    /// <summary>
-    /// Represents an event.
-    /// </summary>
-    public interface IEvent
-    {
-    }
 }

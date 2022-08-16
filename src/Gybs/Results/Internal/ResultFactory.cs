@@ -1,37 +1,40 @@
 using System.Collections.Generic;
 
-namespace Gybs.Results.Internal
+namespace Gybs.Results.Internal;
+
+internal class ResultFactory : IResultFactory
 {
-    internal class ResultFactory : IResultFactory
+    public IResult<TData> CreateSuccess<TData>(TData data, IReadOnlyDictionary<string, object>? metadata)
     {
-        public IResult<TData> CreateSuccess<TData>(TData data, IReadOnlyDictionary<string, object>? metadata)
+        var result = new Result<TData>(true, data);
+
+        if (metadata is not null)
         {
-            var result = new Result<TData>(true, data);
-
-            if (metadata is { })
-            {
-                result.Metadata = metadata;
-            }
-
-            return result;
+            result.Metadata = metadata;
         }
 
-        public IResult CreateSuccess(IReadOnlyDictionary<string, object>? metadata)
-            => CreateSuccess<object?>(default, metadata);
+        return result;
+    }
 
-        public IResult<TData> CreateFailure<TData>(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
+    public IResult CreateSuccess(IReadOnlyDictionary<string, object>? metadata)
+    {
+        return CreateSuccess<object?>(default, metadata);
+    }
+
+    public IResult<TData> CreateFailure<TData>(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
+    {
+        var result = new Result<TData>(false, default) { Errors = errors };
+
+        if (metadata is not null)
         {
-            var result = new Result<TData>(false, default) { Errors = errors };
-
-            if (metadata is { })
-            {
-                result.Metadata = metadata;
-            }
-
-            return result;
+            result.Metadata = metadata;
         }
 
-        public IResult CreateFailure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
-            => CreateFailure<object?>(errors, metadata);
+        return result;
+    }
+
+    public IResult CreateFailure(IReadOnlyDictionary<string, IReadOnlyCollection<string>> errors, IReadOnlyDictionary<string, object>? metadata)
+    {
+        return CreateFailure<object?>(errors, metadata);
     }
 }

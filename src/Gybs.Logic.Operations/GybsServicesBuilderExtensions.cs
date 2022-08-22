@@ -5,6 +5,7 @@ using Gybs.Logic.Operations.Factory.Internal;
 using Gybs.Logic.Operations.ServiceProvider;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 using System.Reflection;
 
 namespace Gybs.Logic.Operations;
@@ -44,6 +45,7 @@ public static class GybsServicesBuilderExtensions
     /// <param name="servicesBuilder">The builder.</param>
     /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
     /// <returns>The builder.</returns>
+    [Obsolete("Given the possibility of multiple ServiceAttribute instances with different groups defined, usage of this method is discouraged.")]
     public static GybsServicesBuilder AddOperationInitializersForFactory(this GybsServicesBuilder servicesBuilder, Assembly? assembly = null)
     {
         ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
@@ -57,6 +59,7 @@ public static class GybsServicesBuilderExtensions
     /// <param name="servicesBuilder">The builder.</param>
     /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
     /// <returns>The builder.</returns>
+    [Obsolete("Given the possibility of multiple ServiceAttribute instances with different groups defined, usage of this method is discouraged.")]
     public static GybsServicesBuilder AddOperationHandlers(this GybsServicesBuilder servicesBuilder, Assembly? assembly = null)
     {
         var serviceCollection = ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance;

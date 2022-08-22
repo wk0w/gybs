@@ -1,6 +1,7 @@
 ﻿using Gybs.DependencyInjection;
 using Gybs.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Reflection;
 
 namespace Gybs.Logic.Cqrs;
@@ -16,6 +17,7 @@ public static class GybsServicesBuilderExtensions
     /// <param name="servicesBuilder">The builder.</param>
     /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
     /// <returns>The builder.</returns>
+    [Obsolete("Given the possibility of multiple ServiceAttribute instances with different groups defined, usage of this method is discouraged.")]
     public static GybsServicesBuilder AddCqrsHandlers(this GybsServicesBuilder servicesBuilder, Assembly? assembly = null)
     {
         var serviceCollection = ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance;

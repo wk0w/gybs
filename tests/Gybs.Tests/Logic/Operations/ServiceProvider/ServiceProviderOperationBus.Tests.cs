@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Gybs.DependencyInjection.Services;
 using Gybs.Extensions;
 using Gybs.Logic.Operations;
 using Gybs.Logic.Operations.ServiceProvider;
@@ -13,6 +14,8 @@ namespace Gybs.Tests.Logic.Operations.ServiceProvider;
 
 public class ServiceProviderOperationBusTests
 {
+    private const string ServiceAttributeGroup = nameof(ServiceProviderOperationBusTests);
+    
     [Fact]
     public async Task ForRegisteredHandlerShouldHandleOperationWithoutData()
     {
@@ -44,7 +47,7 @@ public class ServiceProviderOperationBusTests
     {
         var logger = Substitute.For<ILogger<ServiceProviderOperationBus>>();
         var serviceProvider = new DefaultServiceProviderFactory().CreateServiceProvider(
-            new ServiceCollection().AddGybs(builder => builder.AddOperationHandlers())
+            new ServiceCollection().AddGybs(builder => builder.AddAttributeServices(group: ServiceAttributeGroup))
         );
 
         return new ServiceProviderOperationBus(logger, serviceProvider);
@@ -54,6 +57,7 @@ public class ServiceProviderOperationBusTests
     {
     }
 
+    [TransientService(ServiceAttributeGroup)]
     private class DummyOperationHandler : IOperationHandler<DummyOperation>
     {
         public Task<IResult> HandleAsync(DummyOperation operation) => Result.Success().ToCompletedTask();
@@ -64,6 +68,7 @@ public class ServiceProviderOperationBusTests
         public int InputData { get; set; }
     }
 
+    [TransientService(ServiceAttributeGroup)]
     private class DummyDataOperationHandler : IOperationHandler<DummyDataOperation, int>
     {
         private int _counter = 0;

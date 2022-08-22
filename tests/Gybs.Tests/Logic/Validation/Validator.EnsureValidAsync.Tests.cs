@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using FluentAssertions;
+using Gybs.DependencyInjection.Services;
 using Gybs.Extensions;
 using Gybs.Logic.Validation;
 using Gybs.Logic.Validation.Internal;
@@ -9,12 +7,16 @@ using Gybs.Results;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Gybs.Tests.Logic.Validation;
 
 public class ValidatorEnsureValidAsyncTests
 {
+    private const string ServiceAttributeGroup = nameof(ValidatorEnsureValidAsyncTests);
+
     [Fact]
     public async Task ForSuccessfulValidationShouldPass()
     {
@@ -44,12 +46,13 @@ public class ValidatorEnsureValidAsyncTests
         var logger = Substitute.For<ILogger<Validator>>();
         var serviceProvider = new DefaultServiceProviderFactory().CreateServiceProvider(
             new ServiceCollection()
-                .AddGybs(builder => builder.AddValidation())
+                .AddGybs(builder => builder.AddValidator().AddAttributeServices(group: ServiceAttributeGroup))
         );
 
         return new Validator(logger, serviceProvider);
     }
 
+    [TransientService((ServiceAttributeGroup))]
     private class SucceededRule : IValidationRule<string>
     {
         public Task<IResult> ValidateAsync(string data)
@@ -58,6 +61,7 @@ public class ValidatorEnsureValidAsyncTests
         }
     }
 
+    [TransientService((ServiceAttributeGroup))]
     private class FailedRule : IValidationRule<string>
     {
         public Task<IResult> ValidateAsync(string data)

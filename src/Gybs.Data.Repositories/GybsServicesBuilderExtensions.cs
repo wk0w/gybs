@@ -1,6 +1,7 @@
 ﻿using Gybs.DependencyInjection;
 using Gybs.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Reflection;
 
 namespace Gybs.Data.Repositories;
@@ -17,6 +18,7 @@ public static class GybsServicesBuilderExtensions
     /// <param name="serviceLifetime">The lifetime of registered service.</param>
     /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
     /// <returns>The builder.</returns>
+    [Obsolete("Given the possibility of multiple ServiceAttribute instances with different groups defined, usage of this method is discouraged.")]
     public static GybsServicesBuilder AddUnitOfWork(this GybsServicesBuilder servicesBuilder, ServiceLifetime serviceLifetime, Assembly? assembly = null)
     {
         ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance
@@ -31,6 +33,7 @@ public static class GybsServicesBuilderExtensions
     /// <param name="serviceLifetime">The lifetime of registered service.</param>
     /// <param name="assembly">The assembly. If not provided, <see cref="Assembly.GetCallingAssembly"/> is used.</param>
     /// <returns>The builder.</returns>
+    [Obsolete("Given the possibility of multiple ServiceAttribute instances with different groups defined, usage of this method is discouraged.")]
     public static GybsServicesBuilder AddRepositories(this GybsServicesBuilder servicesBuilder, ServiceLifetime serviceLifetime, Assembly? assembly = null)
     {
         ((IInfrastructure<IServiceCollection>)servicesBuilder).Instance

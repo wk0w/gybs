@@ -72,11 +72,12 @@ By default, library provides the `ServiceProviderOperationBus` which resolves th
 serviceCollection.AddGybs(builder => {
     builder.AddServiceProviderOperationBus();
     builder.AddOperationFactory();
-    builder.AddOperationHandlers();
+    builder.AddAttributeServices();
 );
 
 class DummyOperation : IOperation<string> {}
 
+[TransientService]
 class DummyOperationHandler : IOperationHandler<DummyOperation, string>
 {
     public async Task<IResult<string>> HandleAsync(DummyOperation operation)
@@ -115,9 +116,11 @@ Validation, available at [NuGet](https://www.nuget.org/packages/Gybs.Logic.Valid
 
 ```
 serviceCollection.AddGybs(builder => {
-    builder.AddValidation();
+    builder.AddValidator();
+    builder.AddAttributeServices();
 );
 
+[TransientService]
 class StringIsPresentRule : IValidationRule<string>
 {
     public async Task<IResult> ValidateAsync(string str)

@@ -30,6 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{BED5983E-4
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8D25B200-8AE1-4105-8205-6508CE207669}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\pr-build.yml = .github\workflows\pr-build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,5 +154,6 @@ Global
 		{30FDC611-D5F8-498A-8280-3EF3240779FE} = {AF6723A5-FAF0-4707-A4F5-314AD4E82D46}
 		{865D413F-DD7D-4236-80F0-D01AEAA193B1} = {AF6723A5-FAF0-4707-A4F5-314AD4E82D46}
 		{272017EE-9912-48D5-8ADF-7A85738175B6} = {AF6723A5-FAF0-4707-A4F5-314AD4E82D46}
+		{8D25B200-8AE1-4105-8205-6508CE207669} = {BED5983E-4FC0-45F1-8A2C-AF8FC596B31A}
 	EndGlobalSection
 EndGlobal

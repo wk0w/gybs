@@ -14,6 +14,9 @@ public abstract class ServiceAttribute : Attribute
     /// </summary>
     public string? Group { get; }
 
+    /// <summary>
+    /// Gets the lifetime of the registered service.
+    /// </summary>
     internal ServiceLifetime ServiceLifetime { get; }
 
     private protected ServiceAttribute(string? group, ServiceLifetime serviceLifetime)
@@ -28,6 +31,10 @@ public abstract class ServiceAttribute : Attribute
 /// </summary>
 public sealed class SingletonServiceAttribute : ServiceAttribute
 {
+    /// <summary>
+    /// Creates an instance of the attribute.
+    /// </summary>
+    /// <param name="group">Container registration group.</param>
     public SingletonServiceAttribute(string? group = null)
         : base(group, ServiceLifetime.Singleton)
     {
@@ -39,6 +46,10 @@ public sealed class SingletonServiceAttribute : ServiceAttribute
 /// </summary>
 public sealed class ScopedServiceAttribute : ServiceAttribute
 {
+    /// <summary>
+    /// Creates an instance of the attribute.
+    /// </summary>
+    /// <param name="group">Container registration group.</param>
     public ScopedServiceAttribute(string? group = null)
         : base(group, ServiceLifetime.Scoped)
     {
@@ -50,6 +61,10 @@ public sealed class ScopedServiceAttribute : ServiceAttribute
 /// </summary>
 public sealed class TransientServiceAttribute : ServiceAttribute
 {
+    /// <summary>
+    /// Creates an instance of the attribute.
+    /// </summary>
+    /// <param name="group">Container registration group.</param>
     public TransientServiceAttribute(string? group = null)
         : base(group, ServiceLifetime.Transient)
     {

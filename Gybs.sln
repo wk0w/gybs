@@ -20,6 +20,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gybs.Tests", "tests\Gybs.Tests\Gybs.Tests.csproj", "{D351FD60-5892-4E8D-9A71-CF6DECB68838}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AF6723A5-FAF0-4707-A4F5-314AD4E82D46}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gybs.Logic.Operations", "src\Gybs.Logic.Operations\Gybs.Logic.Operations.csproj", "{33D3CD08-91BF-4BFA-A77D-9415A422FB6A}"
 EndProject
@@ -33,6 +36,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{8D25B200-8AE1-4105-8205-6508CE207669}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\pr-build.yml = .github\workflows\pr-build.yml
+		.github\workflows\push.yml = .github\workflows\push.yml
 	EndProjectSection
 EndProject
 Global

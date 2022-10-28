@@ -24,7 +24,8 @@ public class ValidatorValidateAsyncTests
 
         var result = await validator
             .Require<SucceededRule>().WithData(string.Empty)
-            .Require<SucceededRule>().WithData(string.Empty)
+            .Require<SucceededRule>().WithData((string)null!)
+            .Require<SucceededRule>().WithData(int.MinValue)
             .ValidateAsync();
 
         result.HasSucceeded.Should().BeTrue();
@@ -33,12 +34,14 @@ public class ValidatorValidateAsyncTests
     [Fact]
     public async Task ForFailedValidationShouldFail()
     {
-        var errors = new Dictionary<string, IReadOnlyCollection<string>> { ["key"] = new List<string> { "value" } };
+        var errors = new Dictionary<string, IReadOnlyCollection<string>> { ["key"] = new List<string> { "value_str", "value_int" } };
         var validator = CreateValidator();
 
         var result = await validator
             .Require<SucceededRule>().WithData(string.Empty)
+            .Require<SucceededRule>().WithData(int.MinValue)
             .Require<FailedRule>().WithData(string.Empty)
+            .Require<FailedRule>().WithData(int.MinValue)
             .ValidateAsync();
 
         result.HasSucceeded.Should().BeFalse();
@@ -57,20 +60,30 @@ public class ValidatorValidateAsyncTests
     }
 
     [TransientService((ServiceAttributeGroup))]
-    private class SucceededRule : IValidationRule<string>
+    private class SucceededRule : IValidationRule<string>, IValidationRule<int>
     {
         public Task<IResult> ValidateAsync(string data)
+        {
+            return Result.Success().ToCompletedTask();
+        }
+
+        public Task<IResult> ValidateAsync(int data)
         {
             return Result.Success().ToCompletedTask();
         }
     }
 
     [TransientService((ServiceAttributeGroup))]
-    private class FailedRule : IValidationRule<string>
+    private class FailedRule : IValidationRule<string>, IValidationRule<int>
     {
         public Task<IResult> ValidateAsync(string data)
         {
-            return Result.Failure(new ResultErrorsDictionary().Add("key", "value")).ToCompletedTask();
+            return Result.Failure(new ResultErrorsDictionary().Add("key", "value_str")).ToCompletedTask();
+        }
+
+        public Task<IResult> ValidateAsync(int data)
+        {
+            return Result.Failure(new ResultErrorsDictionary().Add("key", "value_int")).ToCompletedTask();
         }
     }
 }

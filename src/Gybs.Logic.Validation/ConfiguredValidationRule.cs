@@ -38,6 +38,7 @@ public static class ConfiguredValidationRuleExtensions
         if (rule is not ConfiguredValidationRule castedRule) throw new ArgumentException("Rule is not of ConfiguredValidationRule type.", nameof(rule));
 
         castedRule.Data = data;
+        castedRule.DataType = typeof(TData);
         return castedRule.Validator;
     }
 

@@ -13,6 +13,7 @@ Base library, available at [NuGet](https://www.nuget.org/packages/Gybs), consist
 Example usage:
 ```
 Task<bool> IsPresent(string str) => str.IsPresent().ToCompletedTask();
+ValueTask<bool> IsPresent(string str) => str.IsPresent().ToCompletedValueTask();
 
 new [] { 1, 2, 3, 4 }.ForEach(e => Magic(e));
 await new [] { 1, 2, 3, 4 }.ForEachAsync(async e => await MagicAsync(e));
@@ -121,11 +122,18 @@ serviceCollection.AddGybs(builder => {
 );
 
 [TransientService]
-class StringIsPresentRule : IValidationRule<string>
+class ValueIsPresentRule : IValidationRule<string>, IValidationRule<RandomType>
 {
     public async Task<IResult> ValidateAsync(string str)
     {
         return result.IsPresent()
+            ? Result.Success()
+            : Result.Failure(null);
+    }
+    
+    public async Task<IResult> ValidateAsync(RandomType type)
+    {
+        return type is not null
             ? Result.Success()
             : Result.Failure(null);
     }
@@ -134,11 +142,15 @@ class StringIsPresentRule : IValidationRule<string>
 IValidator validator;
 
 var result = await validator
-    .Require<StringIsPresentRule>
+    .Require<ValueIsPresentRule>
         .WithOptions(o => o.StopIfFailed())
         .WithData("")
-    .Require<StringIsPresentRule>
-        .WithData(null)
+    .Require<ValueIsPresentRule>
+        .WithData(new RandomType())
+    .Require<ValueIsPresentRule>
+        .WithData((string)null)
+    .Require<ValueIsPresentRule>
+        .WithData((RandomType)null)
     .ValidateAsync();
 ```
 

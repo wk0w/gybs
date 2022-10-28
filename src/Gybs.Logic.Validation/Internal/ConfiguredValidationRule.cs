@@ -19,7 +19,7 @@ public interface IConfiguredValidationRule<out TValidationRule>
 /// </summary>
 public abstract class ConfiguredValidationRule
 {
-    private static readonly ConcurrentDictionary<Type, MethodInfo> ValidateAsyncMethodInfos = new();
+    private static readonly ConcurrentDictionary<(Type rule, Type data), MethodInfo> ValidateAsyncMethodInfos = new();
 
     internal IValidator Validator { get; }
     internal Type RuleType { get; }
@@ -27,7 +27,8 @@ public abstract class ConfiguredValidationRule
     internal int? Priority { get; set; }
     internal bool StopIfFailed { get; set; }
     internal object? Data { get; set; }
-
+    internal Type? DataType { get; set; }
+    
     private protected ConfiguredValidationRule(IValidator validator, Type ruleType)
     {
         Validator = validator;
@@ -41,8 +42,8 @@ public abstract class ConfiguredValidationRule
         if (rule is null) throw new InvalidOperationException($"Validation rule of {RuleType.FullName} type cannot be resolved.");
 
         var validateAsyncMethodInfo = ValidateAsyncMethodInfos.GetOrAdd(
-            RuleType,
-            t => t.GetMethod(nameof(IValidationRule<object>.ValidateAsync))!
+            (RuleType, DataType!),
+            t => t.rule.GetMethod(nameof(IValidationRule<object>.ValidateAsync), new [] { DataType! })!
         );
 
         return (Task<IResult>)validateAsyncMethodInfo.Invoke(rule, new[] { Data })!;

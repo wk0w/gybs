@@ -23,7 +23,8 @@ public class ValidatorEnsureValidAsyncTests
         var validator = CreateValidator();
 
         await validator
-            .Require<SucceededRule>().WithData(string.Empty)
+            .Require<SucceededIfNotNullRule>().WithData(string.Empty)
+            .Require<SucceededIfNotNullRule>().WithData(() => string.Empty)
             .Require<SucceededRule>().WithData((string)null!)
             .Require<SucceededRule>().WithData(int.MinValue)
             .EnsureValidAsync();
@@ -36,8 +37,8 @@ public class ValidatorEnsureValidAsyncTests
 
         Func<Task> action = async () => await validator
             .Require<SucceededRule>().WithData(string.Empty)
-            .Require<SucceededRule>().WithData(int.MinValue)
-            .Require<FailedRule>().WithData(string.Empty)
+            .Require<SucceededRule>().WithData(() => int.MinValue)
+            .Require<FailedRule>().WithData(() => string.Empty)
             .Require<FailedRule>().WithData(int.MinValue)
             .EnsureValidAsync();
 
@@ -55,7 +56,7 @@ public class ValidatorEnsureValidAsyncTests
         return new Validator(logger, serviceProvider);
     }
 
-    [TransientService((ServiceAttributeGroup))]
+    [TransientService(ServiceAttributeGroup)]
     private class SucceededRule : IValidationRule<string>, IValidationRule<int>
     {
         public Task<IResult> ValidateAsync(string data)
@@ -69,7 +70,21 @@ public class ValidatorEnsureValidAsyncTests
         }
     }
 
-    [TransientService((ServiceAttributeGroup))]
+    [TransientService(ServiceAttributeGroup)]
+    private class SucceededIfNotNullRule : IValidationRule<string?>
+    {
+        public Task<IResult> ValidateAsync(string? data)
+        {
+            if (data is null)
+            {
+                return Result.Failure(new ResultErrorsDictionary().Add("key", "value")).ToCompletedTask();
+            }
+
+            return Result.Success().ToCompletedTask();
+        }
+    }
+
+    [TransientService(ServiceAttributeGroup)]
     private class FailedRule : IValidationRule<string>, IValidationRule<int>
     {
         public Task<IResult> ValidateAsync(string data)

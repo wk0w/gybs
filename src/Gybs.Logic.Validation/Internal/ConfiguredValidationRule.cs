@@ -28,7 +28,8 @@ public abstract class ConfiguredValidationRule
     internal bool StopIfFailed { get; set; }
     internal object? Data { get; set; }
     internal Type? DataType { get; set; }
-    
+    internal Func<object?>? DataFactory { get; set; }
+
     private protected ConfiguredValidationRule(IValidator validator, Type ruleType)
     {
         Validator = validator;
@@ -43,9 +44,9 @@ public abstract class ConfiguredValidationRule
 
         var validateAsyncMethodInfo = ValidateAsyncMethodInfos.GetOrAdd(
             (RuleType, DataType!),
-            t => t.rule.GetMethod(nameof(IValidationRule<object>.ValidateAsync), new [] { DataType! })!
+            t => t.rule.GetMethod(nameof(IValidationRule<object>.ValidateAsync), new[] { DataType! })!
         );
 
-        return (Task<IResult>)validateAsyncMethodInfo.Invoke(rule, new[] { Data })!;
+        return (Task<IResult>)validateAsyncMethodInfo.Invoke(rule, new[] { DataFactory?.Invoke() ?? Data })!;
     }
 }

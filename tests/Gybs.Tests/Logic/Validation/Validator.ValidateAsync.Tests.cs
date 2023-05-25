@@ -23,7 +23,8 @@ public class ValidatorValidateAsyncTests
         var validator = CreateValidator();
 
         var result = await validator
-            .Require<SucceededRule>().WithData(string.Empty)
+            .Require<SucceededIfNotNullRule>().WithData(string.Empty)
+            .Require<SucceededIfNotNullRule>().WithData(() => string.Empty)
             .Require<SucceededRule>().WithData((string)null!)
             .Require<SucceededRule>().WithData(int.MinValue)
             .ValidateAsync();
@@ -39,8 +40,8 @@ public class ValidatorValidateAsyncTests
 
         var result = await validator
             .Require<SucceededRule>().WithData(string.Empty)
-            .Require<SucceededRule>().WithData(int.MinValue)
-            .Require<FailedRule>().WithData(string.Empty)
+            .Require<SucceededRule>().WithData(() => int.MinValue)
+            .Require<FailedRule>().WithData(() => string.Empty)
             .Require<FailedRule>().WithData(int.MinValue)
             .ValidateAsync();
 
@@ -69,6 +70,20 @@ public class ValidatorValidateAsyncTests
 
         public Task<IResult> ValidateAsync(int data)
         {
+            return Result.Success().ToCompletedTask();
+        }
+    }
+
+    [TransientService(ServiceAttributeGroup)]
+    private class SucceededIfNotNullRule : IValidationRule<string?>
+    {
+        public Task<IResult> ValidateAsync(string? data)
+        {
+            if (data is null)
+            {
+                return Result.Failure(new ResultErrorsDictionary().Add("key", "value")).ToCompletedTask();
+            }
+
             return Result.Success().ToCompletedTask();
         }
     }

@@ -151,6 +151,8 @@ var result = await validator
         .WithData((string)null)
     .Require<ValueIsPresentRule>
         .WithData((RandomType)null)
+    .Require<ValueIsPresentRule>
+        .WithData(() => obj.Property)
     .ValidateAsync();
 ```
 

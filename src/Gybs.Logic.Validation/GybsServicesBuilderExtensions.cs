@@ -25,7 +25,7 @@ public static class GybsServicesBuilderExtensions
 
         return servicesBuilder;
     }
-    
+
     /// <summary>
     /// Adds a <see cref="IValidator"/> default implementation and all implementations of <see cref="IValidationRule{TValidationData}"/> which allows to aggregate validation rules.
     /// </summary>

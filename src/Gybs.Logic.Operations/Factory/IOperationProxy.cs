@@ -5,7 +5,7 @@
 /// </summary>
 /// <typeparam name="TOperation">Type of operation.</typeparam>
 public interface IOperationProxy<out TOperation>
-    where TOperation: IOperationBase
+    where TOperation : IOperationBase
 {
     /// <summary>
     /// Gets operation.

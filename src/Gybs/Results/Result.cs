@@ -37,7 +37,7 @@ public static class Result
             ? Factory.CreateSuccess(data, metadata ?? result.Metadata)
             : Factory.CreateFailure<TData>(errors ?? result.Errors, metadata ?? result.Metadata);
     }
-    
+
     /// <summary>
     /// Creates the successful result.
     /// </summary>

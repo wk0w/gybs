@@ -60,7 +60,7 @@ public class ServiceProviderOperationBus : IOperationBus
         if (operationHandler is null) throw new InvalidOperationException($"No handler for operation of type {operationType.FullName}.");
 
         _logger.LogDebug($"Invoking {operationHandler.GetType().FullName} for {operationType.FullName}.");
-        
+
         return operationHandlerDefinition.method.Invoke(operationHandler, new object?[] { operation })!;
     }
 

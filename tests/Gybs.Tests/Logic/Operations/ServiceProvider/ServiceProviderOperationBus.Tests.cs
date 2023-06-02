@@ -15,7 +15,7 @@ namespace Gybs.Tests.Logic.Operations.ServiceProvider;
 public class ServiceProviderOperationBusTests
 {
     private const string ServiceAttributeGroup = nameof(ServiceProviderOperationBusTests);
-    
+
     [Fact]
     public async Task ForRegisteredHandlerShouldHandleOperationWithoutData()
     {

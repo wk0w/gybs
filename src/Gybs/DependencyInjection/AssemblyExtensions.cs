@@ -132,7 +132,7 @@ public static class AssemblyExtensions
             AddType(serviceCollection, assemblyType.GetInterfaces(), assemblyType, serviceLifetime.Value);
         }
 
-        return serviceCollection;        
+        return serviceCollection;
     }
 
     private static void AddType(IServiceCollection serviceCollection, IEnumerable<Type> interfaceTypes, Type assemblyType, ServiceLifetime serviceLifetime)

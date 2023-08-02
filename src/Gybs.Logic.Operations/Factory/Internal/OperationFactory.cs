@@ -8,16 +8,19 @@ namespace Gybs.Logic.Operations.Factory.Internal;
 internal class OperationFactory : IOperationFactory
 {
     private readonly List<IOperationInitializer> _operationInitializers;
+    private readonly List<IImmutableOperationInitializer> _immutableOperationInitializers;
     private readonly IOperationBus _operationBus;
 
     public OperationFactory(
         ILogger<OperationFactory> logger,
         IEnumerable<IOperationInitializer> operationInitializers,
+        IEnumerable<IImmutableOperationInitializer> immutableOperationInitializers,
         IOperationBus operationBus)
     {
         _operationInitializers = operationInitializers.ToList();
+        _immutableOperationInitializers = immutableOperationInitializers.ToList();
         _operationBus = operationBus;
-        logger.LogDebug($"Resolved {_operationInitializers.Count} operation initializers.");
+        logger.LogDebug($"Resolved {_operationInitializers.Count + _immutableOperationInitializers.Count} operation initializers.");
     }
 
     public IOperationProxy<TOperation> Create<TOperation>()
@@ -31,7 +34,11 @@ internal class OperationFactory : IOperationFactory
     {
         if (initializer is null) throw new ArgumentNullException(nameof(initializer));
 
-        return CreateProxy(new TOperation(), initializer);
+        return CreateProxy(new TOperation(), o =>
+        {
+            initializer.Invoke(o);
+            return o;
+        });
     }
 
     public IOperationProxy<TOperation> UseExisting<TOperation>(TOperation operation)
@@ -48,15 +55,29 @@ internal class OperationFactory : IOperationFactory
         if (operation is null) throw new ArgumentNullException(nameof(operation));
         if (initializer is null) throw new ArgumentNullException(nameof(initializer));
 
-        return CreateProxy(operation, initializer);
+        return CreateProxy(operation, o =>
+        {
+            initializer.Invoke(o);
+            return o;
+        });
     }
 
-    private IOperationProxy<TOperation> CreateProxy<TOperation>(TOperation operation, Action<TOperation>? initializer)
+    public IOperationProxy<TOperation> UseExisting<TOperation>(TOperation operation, Func<TOperation, TOperation> factory)
+        where TOperation : IOperationBase, new()
+    {
+        if (operation is null) throw new ArgumentNullException(nameof(operation));
+        if (factory is null) throw new ArgumentNullException(nameof(factory));
+
+        return CreateProxy(operation, factory);
+    }
+
+    private IOperationProxy<TOperation> CreateProxy<TOperation>(TOperation operation, Func<TOperation, TOperation>? factory)
         where TOperation : IOperationBase, new()
     {
         _operationInitializers.ForEach(i => i.Initialize(operation));
-        initializer?.Invoke(operation);
+        var initializedOperation = _immutableOperationInitializers.Aggregate(operation, (o, i) => (TOperation)i.Initialize(o));
+        initializedOperation = factory is not null ? factory.Invoke(initializedOperation) : initializedOperation;
 
-        return new OperationProxy<TOperation>(operation, _operationBus);
+        return new OperationProxy<TOperation>(initializedOperation, _operationBus);
     }
 }

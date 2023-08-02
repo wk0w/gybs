@@ -16,13 +16,18 @@ public class OperationFactoryTests
     {
         var logger = Substitute.For<ILogger<OperationFactory>>();
         var bus = Substitute.For<IOperationBus>();
-        _factory = new OperationFactory(logger, new[] { new DummyOperationInitializer() }, bus);
+        _factory = new OperationFactory(
+            logger,
+            new[] { new DummyOperationInitializer(), new DummyOperationInitializer() },
+            new[] { new DummyImmutableOperationInitializer(), new DummyImmutableOperationInitializer() },
+            bus
+        );
     }
 
     [Fact]
     public void ForCreatedOperationShouldCreateProxy()
     {
-        var proxy = _factory.Create<DummyOperation>();
+        var proxy = _factory.Create<DummyClassOperation>();
 
         proxy.Should().NotBeNull();
         proxy.Operation.Should().NotBeNull();
@@ -32,15 +37,15 @@ public class OperationFactoryTests
     [Fact]
     public void ForCreatedOperationShouldUseInitializers()
     {
-        var proxy = _factory.Create<DummyOperation>(o => o.Str = o.Str == "test" ? "test2" : null);
+        var proxy = _factory.Create<DummyClassOperation>(o => o.Str = o.Str == "##" ? "test" : null);
 
-        proxy.Operation.Str.Should().Be("test2");
+        proxy.Operation.Str.Should().Be("test");
     }
 
     [Fact]
-    public void ForExistingOperationShouldCreateProxy()
+    public void ForExistingOperationWithInitializerMethodShouldCreateProxy()
     {
-        var operation = new DummyOperation();
+        var operation = new DummyClassOperation();
         var proxy = _factory.UseExisting(operation);
 
         proxy.Should().NotBeNull();
@@ -49,27 +54,71 @@ public class OperationFactoryTests
     }
 
     [Fact]
-    public void ForExistingOperationShouldUseInitializers()
+    public void ForExistingOperationWithInitializerMethodShouldUseInitializers()
     {
-        var operation = new DummyOperation();
-        var proxy = _factory.UseExisting(operation, o => o.Str = o.Str == "test" ? "test2" : null);
+        var operation = new DummyClassOperation();
+        var proxy = _factory.UseExisting(operation, o => o.Str = o.Str == "##" ? "test" : null);
 
-        proxy.Operation.Str.Should().Be("test2");
+        proxy.Operation.Str.Should().Be("test");
     }
 
-    private class DummyOperation : IOperation
+    [Fact]
+    public void ForExistingOperationWithFactoryMethodShouldCreateProxy()
+    {
+        var operation = new DummyRecordOperation();
+        DummyRecordOperation? finalOperation = null;
+        var proxy = _factory.UseExisting(operation, o =>
+        {
+            finalOperation = o with { Str = "x" };
+            return finalOperation;
+        });
+
+        proxy.Should().NotBeNull();
+        proxy.Operation.Should().Be(finalOperation);
+        proxy.Bus.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void ForExistingOperationWithFactoryMethodShouldUseInitializers()
+    {
+        var operation = new DummyRecordOperation();
+        var proxy = _factory.UseExisting(operation, o => o with { Str = o.Str == "##" ? "test" : null });
+
+        proxy.Operation.Str.Should().Be("test");
+    }
+
+    private class DummyClassOperation : IOperation
     {
         public string? Str { get; set; }
+    }
+
+    private record DummyRecordOperation : IOperation
+    {
+        public string? Str { get; init; }
+        public int? Int { get; init; }
     }
 
     private class DummyOperationInitializer : IOperationInitializer
     {
         public void Initialize(IOperationBase operation)
         {
-            if (operation is DummyOperation dummyOperation)
+            if (operation is DummyClassOperation dummyOperation)
             {
-                dummyOperation.Str = "test";
+                dummyOperation.Str += "#";
             }
+        }
+    }
+
+    private class DummyImmutableOperationInitializer : IImmutableOperationInitializer
+    {
+        public IOperationBase Initialize(IOperationBase operation)
+        {
+            if (operation is DummyRecordOperation dummyOperation)
+            {
+                return dummyOperation with { Str = dummyOperation.Str + "#" };
+            }
+
+            return operation;
         }
     }
 }

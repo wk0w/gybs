@@ -76,21 +76,32 @@ serviceCollection.AddGybs(builder => {
     builder.AddAttributeServices();
 );
 
-class DummyOperation : IOperation<string> {}
+class DummyOperation : IOperation<string> { ... }
+
+record MoreDummyOperation : IOperation<string> { ... }
 
 [TransientService]
-class DummyOperationHandler : IOperationHandler<DummyOperation, string>
+class DummyOperationHandler : IOperationHandler<DummyOperation, string>, IOperationHandler<MoreDummyOperation, string>
 {
     public async Task<IResult<string>> HandleAsync(DummyOperation operation)
     {
         return "success".ToSuccessfulResult();
     }
+    
+    public async Task<IResult<string>> HandleAsync(MoreDummyOperation operation)
+    {
+        return "success".ToSuccessfulResult();
+    }
 }
 
-IOperationFactory factory;
+IOperationFactory factory = ...;
 
-var result = await factory
-    .Create<DummyOperation>()
+var dummyResult = await factory
+    .Create<DummyOperation>(o => { o.Property = null; })
+    .HandleAsync();
+    
+var moreDummyResult = await factory
+    .Create<MoreDummyOperation>(o => o with { Property = null })
     .HandleAsync();
 ```
 

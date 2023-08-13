@@ -36,7 +36,7 @@ public abstract class ConfiguredValidationRule
         RuleType = ruleType;
     }
 
-    internal Task<IResult> ValidateAsync(IServiceProvider serviceProvider)
+    internal ValueTask<IResult> ValidateAsync(IServiceProvider serviceProvider)
     {
         var rule = serviceProvider.GetService(RuleType);
 
@@ -47,6 +47,13 @@ public abstract class ConfiguredValidationRule
             t => t.rule.GetMethod(nameof(IValidationRule<object>.ValidateAsync), new[] { DataType! })!
         );
 
-        return (Task<IResult>)validateAsyncMethodInfo.Invoke(rule, new[] { DataFactory?.Invoke() ?? Data })!;
+        var result = validateAsyncMethodInfo.Invoke(rule, new[] { DataFactory?.Invoke() ?? Data })!;
+
+        return result switch
+        {
+            Task<IResult> task => new ValueTask<IResult>(task),
+            ValueTask<IResult> valueTask => valueTask,
+            _ => throw new NotSupportedException($"Not supported return type: ({result.GetType().FullName})")
+        };
     }
 }

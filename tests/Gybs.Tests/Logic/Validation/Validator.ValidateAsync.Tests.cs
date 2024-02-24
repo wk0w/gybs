@@ -49,6 +49,19 @@ public class ValidatorValidateAsyncTests
         result.Errors.Should().BeEquivalentTo(errors);
     }
 
+    [Fact]
+    public async Task ForMixedReturnTypeValidationRuleShouldSucceeded()
+    {
+        var validator = CreateValidator();
+
+        var result = await validator
+            .Require<MixedReturnTypeRule>().WithData(string.Empty)
+            .Require<MixedReturnTypeRule>().WithData(() => string.Empty)
+            .ValidateAsync();
+
+        result.HasSucceeded.Should().BeTrue();
+    }
+
     private IValidator CreateValidator()
     {
         var logger = Substitute.For<ILogger<Validator>>();
@@ -99,6 +112,20 @@ public class ValidatorValidateAsyncTests
         public Task<IResult> ValidateAsync(int data)
         {
             return Result.Failure(new ResultErrorsDictionary().Add("key", "value_int")).ToCompletedTask();
+        }
+    }
+
+    [TransientService((ServiceAttributeGroup))]
+    private class MixedReturnTypeRule : IValidationRule<string>, IValueValidationRule<int>
+    {
+        public Task<IResult> ValidateAsync(string data)
+        {
+            return Result.Success().ToCompletedTask();
+        }
+
+        public ValueTask<IResult> ValidateAsync(int data)
+        {
+            return new ValueTask<IResult>(Result.Success());
         }
     }
 }

@@ -48,7 +48,39 @@ public static class ConfiguredValidationRuleExtensions
     /// <param name="data">Function returning data to validate.</param>
     /// <typeparam name="TData">Type of the data to validate.</typeparam>
     /// <returns>The validator.</returns>
+    public static IValidator WithData<TData>(this IConfiguredValidationRule<IValueValidationRule<TData>> rule, TData? data)
+    {
+        if (rule is not ConfiguredValidationRule castedRule) throw new ArgumentException("Rule is not of ConfiguredValidationRule type.", nameof(rule));
+
+        castedRule.Data = data;
+        castedRule.DataType = typeof(TData);
+        return castedRule.Validator;
+    }
+
+    /// <summary>
+    /// Sets the data passed to the validation rule.
+    /// </summary>
+    /// <param name="rule">Validation rule.</param>
+    /// <param name="data">Function returning data to validate.</param>
+    /// <typeparam name="TData">Type of the data to validate.</typeparam>
+    /// <returns>The validator.</returns>
     public static IValidator WithData<TData>(this IConfiguredValidationRule<IValidationRule<TData>> rule, Func<TData?> data)
+    {
+        if (rule is not ConfiguredValidationRule castedRule) throw new ArgumentException("Rule is not of ConfiguredValidationRule type.", nameof(rule));
+
+        castedRule.DataFactory = () => data();
+        castedRule.DataType = typeof(TData);
+        return castedRule.Validator;
+    }
+
+    /// <summary>
+    /// Sets the data passed to the validation rule.
+    /// </summary>
+    /// <param name="rule">Validation rule.</param>
+    /// <param name="data">Function returning data to validate.</param>
+    /// <typeparam name="TData">Type of the data to validate.</typeparam>
+    /// <returns>The validator.</returns>
+    public static IValidator WithData<TData>(this IConfiguredValidationRule<IValueValidationRule<TData>> rule, Func<TData?> data)
     {
         if (rule is not ConfiguredValidationRule castedRule) throw new ArgumentException("Rule is not of ConfiguredValidationRule type.", nameof(rule));
 
